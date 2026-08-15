@@ -1,0 +1,369 @@
+<div class="search-page">
+
+  <main class="search-content app-container">
+
+    <div class="search-inner">
+
+      <section class="page-header">
+
+        <span class="page-label">
+          ENVANTER
+        </span>
+
+        <h1>
+          Gelişmiş Arama
+        </h1>
+
+        <p>
+          Buluntuları bir veya birden fazla alana göre filtreleyebilirsiniz.
+        </p>
+
+      </section>
+
+
+      <section class="search-card">
+
+        <h2>
+          Arama Kriterleri
+        </h2>
+
+        <form
+          class="search-form"
+          (ngSubmit)="search()"
+        >
+
+          <div class="filter-grid">
+
+            <div class="form-field">
+              <label for="artifactCode">
+                Buluntu Kodu
+              </label>
+
+              <input
+                id="artifactCode"
+                name="artifactCode"
+                type="text"
+                [(ngModel)]="filters.artifactCode"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="type">
+                Tür
+              </label>
+
+              <input
+                id="type"
+                name="type"
+                type="text"
+                [(ngModel)]="filters.type"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="findLocation">
+                Buluntu Yeri
+              </label>
+
+              <input
+                id="findLocation"
+                name="findLocation"
+                type="text"
+                [(ngModel)]="filters.findLocation"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="locality">
+                Mevki
+              </label>
+
+              <input
+                id="locality"
+                name="locality"
+                type="text"
+                [(ngModel)]="filters.locality"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="sector">
+                Sektör
+              </label>
+
+              <input
+                id="sector"
+                name="sector"
+                type="text"
+                [(ngModel)]="filters.sector"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="findYear">
+                Buluntu Yılı
+              </label>
+
+              <input
+                id="findYear"
+                name="findYear"
+                type="number"
+                [(ngModel)]="filters.findYear"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="period">
+                Dönem
+              </label>
+
+              <input
+                id="period"
+                name="period"
+                type="text"
+                [(ngModel)]="filters.period"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="material">
+                Malzeme
+              </label>
+
+              <input
+                id="material"
+                name="material"
+                type="text"
+                [(ngModel)]="filters.material"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="form">
+                Form
+              </label>
+
+              <input
+                id="form"
+                name="form"
+                type="text"
+                [(ngModel)]="filters.form"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="decorationType">
+                Bezeme Türü
+              </label>
+
+              <input
+                id="decorationType"
+                name="decorationType"
+                type="text"
+                [(ngModel)]="filters.decorationType"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="technique">
+                Teknik
+              </label>
+
+              <input
+                id="technique"
+                name="technique"
+                type="text"
+                [(ngModel)]="filters.technique"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="munsell">
+                Munsell
+              </label>
+
+              <input
+                id="munsell"
+                name="munsell"
+                type="text"
+                [(ngModel)]="filters.munsell"
+              />
+            </div>
+
+          </div>
+
+
+          <div class="search-actions">
+
+            <button
+              type="button"
+              class="clear-button"
+              (click)="clearFilters()"
+              [disabled]="loading()"
+            >
+              TEMİZLE
+            </button>
+
+            <button
+              type="submit"
+              class="search-button"
+              [disabled]="loading()"
+            >
+              {{
+                loading()
+                  ? 'ARANIYOR...'
+                  : 'ARA'
+              }}
+            </button>
+
+          </div>
+
+        </form>
+
+      </section>
+
+
+      @if (errorMessage()) {
+
+        <div class="state-box error">
+          {{ errorMessage() }}
+        </div>
+
+      }
+
+
+      @if (searched()) {
+
+        <section class="results-card">
+
+          <div class="results-header">
+
+            <h2>
+              Arama Sonuçları
+            </h2>
+
+            <span>
+              {{ results().length }} Buluntu
+            </span>
+
+          </div>
+
+
+          @if (loading()) {
+
+            <div class="state-box">
+              Buluntular aranıyor...
+            </div>
+
+          } @else if (results().length === 0) {
+
+            <div class="state-box">
+
+              <strong>
+                Arama kriterlerine uygun buluntu bulunamadı.
+              </strong>
+
+              <p>
+                Filtreleri değiştirerek tekrar arama yapabilirsiniz.
+              </p>
+
+            </div>
+
+          } @else {
+
+            <div class="table-wrapper">
+
+              <table>
+
+                <thead>
+                  <tr>
+                    <th>Buluntu Kodu</th>
+                    <th>Tür</th>
+                    <th>Buluntu Yeri</th>
+                    <th>Dönem</th>
+                    <th>Görünürlük</th>
+                    <th></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+
+                  @for (
+                    artifact of results();
+                    track artifact.id
+                  ) {
+
+                    <tr
+                      class="artifact-row"
+                      (click)="openArtifact(artifact)"
+                    >
+
+                      <td class="artifact-code">
+                        {{ artifact.artifactCode }}
+                      </td>
+
+                      <td>
+                        {{ artifact.type || '—' }}
+                      </td>
+
+                      <td>
+                        {{ artifact.findLocation || '—' }}
+                      </td>
+
+                      <td>
+                        {{ artifact.period || '—' }}
+                      </td>
+
+                      <td>
+
+                        <span
+                          class="visibility-badge"
+                          [class.public]="
+                            artifact.visibility === 'PUBLIC'
+                          "
+                        >
+                          {{
+                            artifact.visibility === 'PUBLIC'
+                              ? 'PUBLIC'
+                              : 'EKİBE ÖZEL'
+                          }}
+                        </span>
+
+                      </td>
+
+                      <td class="open-cell">
+                        →
+                      </td>
+
+                    </tr>
+
+                  }
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+          }
+
+        </section>
+
+      }
+
+    </div>
+
+  </main>
+
+</div>

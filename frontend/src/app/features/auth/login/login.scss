@@ -1,0 +1,377 @@
+:host {
+  display: block;
+
+  width: 100vw;
+  height: 100vh;
+
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ==================================================
+   PAGE
+================================================== */
+
+.login-page {
+  position: fixed;
+  inset: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      rgba(15, 39, 71, 0.20),
+      rgba(15, 39, 71, 0.20)
+    ),
+    url('/images/philadelphia-bg.png')
+      center center / cover
+      no-repeat;
+
+  font-family:
+    Inter,
+    Arial,
+    Helvetica,
+    sans-serif;
+}
+
+
+/* ==================================================
+   ESKİ DEKORATİF ARKA PLANLAR
+================================================== */
+
+.background {
+  display: none;
+}
+
+
+/* ==================================================
+   LOGIN CARD
+================================================== */
+
+.login-card {
+  position: relative;
+  z-index: 1;
+
+  width: min(440px, calc(100% - 40px));
+
+  padding: 40px 42px 30px;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+
+  box-shadow:
+    0 18px 45px rgba(15, 39, 71, 0.12);
+}
+
+
+/* ==================================================
+   BRAND
+================================================== */
+
+.brand {
+  margin-bottom: var(--space-4);
+
+  text-align: center;
+
+  color: #0f2747;
+}
+
+.brand-icon {
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 10px;
+}
+
+.column-icon {
+  font-size: 38px;
+}
+
+.brand h1 {
+  margin: 0;
+
+  font-family:
+    Georgia,
+    'Times New Roman',
+    serif;
+
+  font-size: 24px;
+  font-weight: 600;
+
+  letter-spacing: 0.2px;
+}
+
+.brand p {
+  margin: 7px 0 0;
+
+  color: #64748b;
+
+  font-size: 13px;
+}
+
+
+/* ==================================================
+   LOGIN FORM
+================================================== */
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--space-2);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--space-1);
+}
+
+.form-group label {
+  color: #334155;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+
+/* ==================================================
+   INPUTS
+================================================== */
+
+input[type='email'],
+input[type='password'],
+input[type='text'] {
+  width: 100%;
+  min-height: 46px;
+
+  box-sizing: border-box;
+
+  padding: 0 14px;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+
+  outline: none;
+
+  color: #1e293b;
+  background: #ffffff;
+
+  font-size: 14px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+input:focus {
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+input::placeholder {
+  color: #94a3b8;
+}
+
+
+/* ==================================================
+   PASSWORD FIELD
+================================================== */
+
+.password-field {
+  position: relative;
+}
+
+.password-field input {
+  padding-right: 44px;
+}
+
+.password-toggle {
+  position: absolute;
+
+  right: 6px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  width: 34px;
+  height: 34px;
+
+  border: none;
+  background: transparent;
+
+  cursor: pointer;
+
+  color: #64748b;
+
+  font-size: 18px;
+}
+
+
+/* ==================================================
+   REMEMBER / FORGOT PASSWORD
+================================================== */
+
+.form-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: -2px;
+
+  font-size: 13px;
+}
+
+.remember {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  color: #64748b;
+
+  cursor: pointer;
+}
+
+.remember input {
+  accent-color: #2563eb;
+}
+
+.forgot-password {
+  color: #2563eb;
+
+  cursor: pointer;
+
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+
+/* ==================================================
+   ERROR MESSAGE
+================================================== */
+
+.error-message {
+  padding: 12px 14px;
+
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+
+  background: #fef2f2;
+
+  color: #b91c1c;
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+
+/* ==================================================
+   LOGIN BUTTON
+================================================== */
+
+.login-button {
+  min-height: 48px;
+
+  padding: 0 var(--space-2);
+
+  border: none;
+  border-radius: 6px;
+
+  background: #2563eb;
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  letter-spacing: 0.3px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease;
+}
+
+.login-button:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.login-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.login-button:disabled {
+  opacity: 0.65;
+
+  cursor: not-allowed;
+}
+
+
+/* ==================================================
+   FOOTER
+================================================== */
+
+footer {
+  margin-top: var(--space-4);
+
+  text-align: center;
+
+  color: #94a3b8;
+
+  font-size: 11px;
+}
+
+
+/* ==================================================
+   MOBILE
+================================================== */
+
+@media (max-width: 600px) {
+
+  .login-card {
+    width: min(420px, calc(100% - 28px));
+
+    padding: var(--space-4) var(--space-3) var(--space-3);
+  }
+
+  .brand h1 {
+    font-size: 22px;
+  }
+
+  .login-page {
+    align-items: flex-start;
+
+    padding-top: 50px;
+
+    box-sizing: border-box;
+
+    background-position: center center;
+  }
+
+  .form-options {
+    font-size: 12px;
+  }
+}

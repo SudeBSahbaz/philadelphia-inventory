@@ -1,0 +1,857 @@
+:host {
+  display: block;
+  min-height: 100vh;
+
+  background: #f5f7fb;
+  color: #0f2747;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+/* ==================================================
+   PAGE
+================================================== */
+
+.artifact-edit-page {
+  min-height: 100vh;
+}
+
+
+/* ==================================================
+   CONTENT
+================================================== */
+
+.artifact-edit-content {
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-9);
+}
+
+
+/* ==================================================
+   CONTAINER
+================================================== */
+
+.form-container {
+  width: 100%;
+  max-width: 1100px;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+/* ==================================================
+   HEADER
+================================================== */
+
+.form-header {
+  margin-bottom: var(--space-4);
+}
+
+.form-header h1 {
+  margin: 0;
+
+  color: #0f2747;
+
+  font-family:
+    Georgia,
+    'Times New Roman',
+    serif;
+
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.breadcrumb {
+  display: inline-block;
+
+  margin: 0 0 var(--space-1);
+
+  color: #56708f;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  letter-spacing: 1.2px;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease;
+}
+
+.breadcrumb:hover {
+  color: #2f6fed;
+}
+
+.artifact-code-info {
+  margin: var(--space-1) 0 0;
+
+  color: #6b7f99;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+
+/* ==================================================
+   LOADING
+================================================== */
+
+.state-box {
+  padding: var(--space-6) var(--space-3);
+
+  border: 1px solid #dce4ef;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #56708f;
+
+  text-align: center;
+
+  font-size: 14px;
+
+  box-shadow:
+    0 3px 12px rgba(13, 43, 82, 0.04);
+}
+
+
+/* ==================================================
+   ERROR
+================================================== */
+
+.error-message {
+  margin-bottom: var(--space-3);
+
+  padding: var(--space-2);
+
+  border: 1px solid #ffb7b7;
+  border-radius: 8px;
+
+  background: #fff1f1;
+  color: #d60000;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+
+/* ==================================================
+   SECTIONS
+================================================== */
+
+.form-section {
+  margin-bottom: var(--space-3);
+
+  padding: var(--space-4);
+
+  border: 1px solid #dce4ef;
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 3px 12px rgba(13, 43, 82, 0.04);
+}
+
+.form-section h2 {
+  margin: 0 0 var(--space-3);
+
+  padding-bottom: var(--space-2);
+
+  border-bottom: 1px solid #e5eaf1;
+
+  color: #0f2747;
+
+  font-size: 20px;
+  font-weight: 700;
+}
+
+
+/* ==================================================
+   GRID
+================================================== */
+
+.form-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: var(--space-3);
+}
+
+
+/* ==================================================
+   FIELD
+================================================== */
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--space-1);
+}
+
+.form-field.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-field label {
+  color: #172b4d;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+
+/* ==================================================
+   INPUTS
+================================================== */
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+
+  border: 1px solid #cbd6e5;
+  border-radius: 6px;
+
+  background: #ffffff;
+  color: #172b4d;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.form-field input,
+.form-field select {
+  min-height: 46px;
+
+  padding: 0 14px;
+}
+
+.form-field select {
+  cursor: pointer;
+}
+
+.form-field textarea {
+  min-height: 110px;
+
+  padding: 12px 14px;
+
+  resize: vertical;
+}
+
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+  color: #9aabc1;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-color: #2f6fed;
+
+  box-shadow:
+    0 0 0 3px rgba(47, 111, 237, 0.09);
+}
+
+.form-field input:disabled,
+.form-field select:disabled,
+.form-field textarea:disabled {
+  background: #f5f7fa;
+
+  cursor: not-allowed;
+}
+
+
+/* ==================================================
+   PHOTO MANAGEMENT SECTION
+================================================== */
+
+.photo-management-section {
+  padding-bottom: var(--space-4);
+}
+
+.photo-section-title {
+  margin-bottom: var(--space-3);
+
+  padding-bottom: var(--space-2);
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: var(--space-3);
+
+  border-bottom: 1px solid #e5eaf1;
+}
+
+.photo-section-title h2 {
+  margin: 0 0 6px;
+  padding: 0;
+
+  border: none;
+
+  font-size: 20px;
+}
+
+.photo-section-title p {
+  margin: 0;
+
+  color: #74869c;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.photo-count {
+  flex-shrink: 0;
+
+  min-height: 28px;
+
+  padding: 4px 10px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 5px;
+
+  background: #edf3ff;
+  color: #2f6fed;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+/* ==================================================
+   PHOTO MESSAGE
+================================================== */
+
+.photo-message {
+  margin-bottom: var(--space-2);
+
+  padding: 12px 14px;
+
+  border-radius: 8px;
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.photo-message.error {
+  border: 1px solid #fecaca;
+
+  background: #fff5f5;
+  color: #b91c1c;
+}
+
+.photo-message.success {
+  border: 1px solid #bbf7d0;
+
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+
+/* ==================================================
+   PHOTO UPLOAD
+================================================== */
+
+.photo-upload-box {
+  margin-bottom: var(--space-4);
+
+  padding: var(--space-3);
+
+  border: 1px solid #dce4ef;
+  border-radius: 8px;
+
+  background: #f8fafc;
+}
+
+.photo-upload-box h3,
+.existing-photos h3 {
+  margin: 0 0 var(--space-2);
+
+  color: #233d5e;
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.photo-upload-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: var(--space-3);
+}
+
+.selected-file {
+  margin-top: var(--space-2);
+
+  padding: 12px 16px;
+
+  display: flex;
+  align-items: center;
+
+  gap: var(--space-1);
+
+  border: 1px solid #dbe3ed;
+  border-radius: 6px;
+
+  background: #ffffff;
+  color: #697d95;
+
+  font-size: 13px;
+}
+
+.selected-file strong {
+  color: #263f5f;
+
+  font-weight: 600;
+
+  word-break: break-all;
+}
+
+.photo-upload-actions {
+  margin-top: var(--space-2);
+
+  display: flex;
+  justify-content: flex-end;
+}
+
+.upload-photo-button {
+  min-width: 165px;
+  min-height: 48px;
+
+  padding: 0 var(--space-2);
+
+  border: 1px solid #2f6fed;
+  border-radius: 6px;
+
+  background: #2f6fed;
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.upload-photo-button:hover:not(:disabled) {
+  background: #255ecb;
+
+  border-color: #255ecb;
+}
+
+.upload-photo-button:disabled {
+  opacity: 0.55;
+
+  cursor: not-allowed;
+}
+
+
+/* ==================================================
+   EXISTING PHOTOS
+================================================== */
+
+.existing-photos {
+  margin-top: var(--space-4);
+}
+
+.photo-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: var(--space-2);
+}
+
+.photo-card {
+  overflow: hidden;
+
+  border: 1px solid #dfe6ef;
+  border-radius: 8px;
+
+  background: #ffffff;
+}
+
+.photo-preview {
+  width: 100%;
+  height: 180px;
+
+  padding: 0;
+
+  overflow: hidden;
+
+  border: none;
+  border-bottom: 1px solid #e2e8f0;
+
+  background: #f8fafc;
+
+  cursor: pointer;
+}
+
+.photo-image {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  transition:
+    opacity 0.2s ease;
+}
+
+.photo-preview:hover .photo-image {
+  opacity: 0.9;
+}
+
+.photo-placeholder {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: var(--space-1);
+
+  color: #75879c;
+}
+
+.photo-placeholder-icon {
+  font-size: 32px;
+}
+
+.photo-placeholder span:last-child {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+
+/* ==================================================
+   PHOTO INFO
+================================================== */
+
+.photo-info {
+  padding: var(--space-2);
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: var(--space-2);
+}
+
+.photo-details {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+.photo-number-label {
+  color: #94a3b8;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.4px;
+}
+
+.photo-details strong {
+  color: #0f2747;
+
+  font-size: 14px;
+}
+
+.photo-file-name {
+  max-width: 200px;
+
+  overflow: hidden;
+
+  color: #64748b;
+
+  font-size: 12px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ==================================================
+   DELETE PHOTO
+================================================== */
+
+.delete-photo-button {
+  flex-shrink: 0;
+
+  min-height: 32px;
+
+  padding: 0 10px;
+
+  border: 1px solid #fecaca;
+  border-radius: 5px;
+
+  background: #ffffff;
+  color: #b91c1c;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.delete-photo-button:hover:not(:disabled) {
+  background: #fef2f2;
+}
+
+.delete-photo-button:disabled {
+  opacity: 0.5;
+
+  cursor: not-allowed;
+}
+
+
+/* ==================================================
+   PHOTO META
+================================================== */
+
+.photo-meta {
+  padding: var(--space-1) var(--space-2);
+
+  display: flex;
+  justify-content: space-between;
+
+  gap: var(--space-1);
+
+  border-top: 1px solid #f1f5f9;
+
+  background: #fbfdff;
+  color: #94a3b8;
+
+  font-size: 11px;
+}
+
+
+/* ==================================================
+   PHOTO EMPTY STATE
+================================================== */
+
+.photo-empty-state {
+  padding: var(--space-5) var(--space-3);
+
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+
+  background: #f8fafc;
+  color: #73869d;
+
+  text-align: center;
+
+  font-size: 13px;
+}
+
+.photo-empty-state strong {
+  display: block;
+
+  margin-bottom: var(--space-1);
+
+  color: #344b68;
+
+  font-size: 14px;
+}
+
+.photo-empty-state p {
+  margin: 0;
+}
+
+
+/* ==================================================
+   ACTIONS
+================================================== */
+
+.form-actions {
+  margin-top: var(--space-4);
+
+  display: flex;
+  justify-content: flex-end;
+
+  gap: var(--space-2);
+}
+
+.form-actions button {
+  min-width: 165px;
+  min-height: 48px;
+
+  padding: 0 20px;
+
+  border-radius: 6px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.cancel-button {
+  border: 1px solid #cbd6e5;
+
+  background: #ffffff;
+  color: #344b68;
+}
+
+.cancel-button:hover:not(:disabled) {
+  background: #f4f6f9;
+}
+
+.save-button {
+  border: 1px solid #2f6fed;
+
+  background: #2f6fed;
+  color: #ffffff;
+}
+
+.save-button:hover:not(:disabled) {
+  border-color: #255ecb;
+
+  background: #255ecb;
+}
+
+.form-actions button:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+}
+
+
+/* ==================================================
+   TABLET
+================================================== */
+
+@media (max-width: 900px) {
+
+  .photo-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+@media (max-width: 768px) {
+
+  .artifact-edit-content {
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-6);
+  }
+
+  .form-header h1 {
+    font-size: 31px;
+  }
+
+  .form-grid,
+  .photo-upload-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-field.full-width {
+    grid-column: auto;
+  }
+
+  .form-section {
+    padding: var(--space-3);
+  }
+
+  .photo-section-title {
+    flex-direction: column;
+  }
+
+  .photo-upload-actions {
+    justify-content: stretch;
+  }
+
+  .upload-photo-button {
+    width: 100%;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+
+}
+
+
+/* ==================================================
+   MOBILE
+================================================== */
+
+@media (max-width: 480px) {
+
+  .artifact-edit-content {
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-5);
+  }
+
+  .form-header h1 {
+    font-size: 28px;
+  }
+
+  .form-section {
+    padding: var(--space-2);
+  }
+
+  .photo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .photo-preview {
+    height: 220px;
+  }
+
+  .photo-meta {
+    flex-direction: column;
+  }
+
+  .selected-file {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+}

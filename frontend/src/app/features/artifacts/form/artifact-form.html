@@ -1,0 +1,867 @@
+<div class="artifact-form-page">
+
+  <main class="artifact-form-content app-container">
+
+    <div class="form-container">
+
+      <div class="form-header">
+
+        <div>
+
+          <p
+            class="breadcrumb"
+            (click)="cancel()"
+          >
+            ← Geri
+          </p>
+
+          <h1>
+            Yeni Buluntu Oluştur
+          </h1>
+
+        </div>
+
+      </div>
+
+
+      @if (errorMessage()) {
+
+        <div class="error-message">
+          {{ errorMessage() }}
+        </div>
+
+      }
+
+
+      <form (ngSubmit)="saveArtifact()">
+
+
+        <!-- ==================================================
+             TEMEL BİLGİLER
+        =================================================== -->
+
+        <section class="form-section">
+
+          <h2>
+            Temel Bilgiler
+          </h2>
+
+          <div class="form-grid">
+
+
+            <div class="form-field">
+
+              <label for="artifactCode">
+                Buluntu Kodu *
+              </label>
+
+              <input
+                id="artifactCode"
+                name="artifactCode"
+                type="text"
+                [(ngModel)]="formData.artifactCode"
+                placeholder="Örn: PH26-A3-145"
+                required
+              />
+
+            </div>
+
+
+            <div class="form-field">
+
+              <label for="type">
+                Tür
+              </label>
+
+              <input
+                id="type"
+                name="type"
+                type="text"
+                [(ngModel)]="formData.type"
+              />
+
+            </div>
+
+
+            <div class="form-field">
+
+              <label for="formNo">
+                Form No
+              </label>
+
+              <input
+                id="formNo"
+                name="formNo"
+                type="text"
+                [(ngModel)]="formData.formNo"
+              />
+
+            </div>
+
+
+            <div class="form-field">
+
+              <label for="inventoryNo">
+                Envanter No
+              </label>
+
+              <input
+                id="inventoryNo"
+                name="inventoryNo"
+                type="text"
+                [(ngModel)]="formData.inventoryNo"
+              />
+
+            </div>
+
+
+            <div class="form-field">
+
+              <label for="studyNo">
+                Etüt No
+              </label>
+
+              <input
+                id="studyNo"
+                name="studyNo"
+                type="text"
+                [(ngModel)]="formData.studyNo"
+              />
+
+            </div>
+
+
+            <div class="form-field">
+
+              <label for="bagNo">
+                Torba No
+              </label>
+
+              <input
+                id="bagNo"
+                name="bagNo"
+                type="text"
+                [(ngModel)]="formData.bagNo"
+              />
+
+            </div>
+
+
+            <div class="form-field">
+
+              <label for="boxNo">
+                Kutu No
+              </label>
+
+              <input
+                id="boxNo"
+                name="boxNo"
+                type="text"
+                [(ngModel)]="formData.boxNo"
+              />
+
+            </div>
+
+
+            <div class="form-field">
+
+              <label for="box">
+                Kasa
+              </label>
+
+              <input
+                id="box"
+                name="box"
+                type="text"
+                [(ngModel)]="formData.box"
+              />
+
+            </div>
+
+
+            <div class="form-field">
+
+              <label for="depth">
+                Derinlik
+              </label>
+
+              <input
+                id="depth"
+                name="depth"
+                type="text"
+                [(ngModel)]="formData.depth"
+              />
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             BULUNTU BİLGİLERİ
+        =================================================== -->
+
+        <section class="form-section">
+
+          <h2>
+            Buluntu Bilgileri
+          </h2>
+
+          <div class="form-grid">
+
+
+            <div class="form-field">
+
+              <label for="findLocation">
+                Buluntu Yeri
+              </label>
+
+              <input
+                id="findLocation"
+                name="findLocation"
+                type="text"
+                [(ngModel)]="formData.findLocation"
+              />
+
+            </div>
+
+
+            <div class="form-field">
+
+              <label for="locality">
+                Mevki
+              </label>
+
+              <input
+                id="locality"
+                name="locality"
+                type="text"
+                [(ngModel)]="formData.locality"
+              />
+
+            </div>
+
+
+            <div class="form-field">
+
+              <label for="sector">
+                Sektör
+              </label>
+
+              <input
+                id="sector"
+                name="sector"
+                type="text"
+                [(ngModel)]="formData.sector"
+              />
+
+            </div>
+
+
+            <div class="form-field">
+
+              <label for="findDate">
+                Buluntu Tarihi
+              </label>
+
+              <input
+                id="findDate"
+                name="findDate"
+                type="date"
+                [(ngModel)]="formData.findDate"
+              />
+
+            </div>
+
+
+            <div class="form-field">
+
+              <label for="findYear">
+                Buluntu Yılı
+              </label>
+
+              <input
+                id="findYear"
+                name="findYear"
+                type="number"
+                [(ngModel)]="formData.findYear"
+              />
+
+            </div>
+
+
+            <div class="form-field">
+
+              <label for="area">
+                Alan
+              </label>
+
+              <input
+                id="area"
+                name="area"
+                type="text"
+                [(ngModel)]="formData.area"
+              />
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             TİPOLOJİ / TEKNİK
+        =================================================== -->
+
+        <section class="form-section">
+
+          <h2>
+            Tipoloji ve Teknik Bilgiler
+          </h2>
+
+          <div class="form-grid">
+
+
+            <div class="form-field">
+              <label for="form">Form</label>
+
+              <input
+                id="form"
+                name="form"
+                [(ngModel)]="formData.form"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="decorationType">Bezeme Türü</label>
+
+              <input
+                id="decorationType"
+                name="decorationType"
+                [(ngModel)]="formData.decorationType"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="pasteStructure">Hamur Yapısı</label>
+
+              <input
+                id="pasteStructure"
+                name="pasteStructure"
+                [(ngModel)]="formData.pasteStructure"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="firing">Pişme</label>
+
+              <input
+                id="firing"
+                name="firing"
+                [(ngModel)]="formData.firing"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="technique">Teknik</label>
+
+              <input
+                id="technique"
+                name="technique"
+                [(ngModel)]="formData.technique"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="temper">Katkı</label>
+
+              <input
+                id="temper"
+                name="temper"
+                [(ngModel)]="formData.temper"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="temperAmount">Katkı Miktarı</label>
+
+              <input
+                id="temperAmount"
+                name="temperAmount"
+                [(ngModel)]="formData.temperAmount"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="slipStructure">Astar Yapısı</label>
+
+              <input
+                id="slipStructure"
+                name="slipStructure"
+                [(ngModel)]="formData.slipStructure"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="angle">Açı</label>
+
+              <input
+                id="angle"
+                name="angle"
+                [(ngModel)]="formData.angle"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="period">Dönem</label>
+
+              <input
+                id="period"
+                name="period"
+                [(ngModel)]="formData.period"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="kind">Cins</label>
+
+              <input
+                id="kind"
+                name="kind"
+                [(ngModel)]="formData.kind"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="munsell">Munsell</label>
+
+              <input
+                id="munsell"
+                name="munsell"
+                [(ngModel)]="formData.munsell"
+              />
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             ÖLÇÜLER
+        =================================================== -->
+
+        <section class="form-section">
+
+          <h2>
+            Ölçüler
+          </h2>
+
+          <div class="form-grid">
+
+
+            <div class="form-field">
+              <label for="diameter">Çap</label>
+
+              <input
+                id="diameter"
+                name="diameter"
+                [(ngModel)]="formData.diameter"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="weight">Ağırlık</label>
+
+              <input
+                id="weight"
+                name="weight"
+                [(ngModel)]="formData.weight"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="length">Uzunluk</label>
+
+              <input
+                id="length"
+                name="length"
+                [(ngModel)]="formData.length"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="width">Genişlik</label>
+
+              <input
+                id="width"
+                name="width"
+                [(ngModel)]="formData.width"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="thickness">Kalınlık</label>
+
+              <input
+                id="thickness"
+                name="thickness"
+                [(ngModel)]="formData.thickness"
+              />
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             DİĞER BİLGİLER
+        =================================================== -->
+
+        <section class="form-section">
+
+          <h2>
+            Diğer Bilgiler
+          </h2>
+
+          <div class="form-grid">
+
+
+            <div class="form-field">
+              <label for="drawingNo">Çizim No</label>
+
+              <input
+                id="drawingNo"
+                name="drawingNo"
+                [(ngModel)]="formData.drawingNo"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="preservedPart">Kor. Kısım</label>
+
+              <input
+                id="preservedPart"
+                name="preservedPart"
+                [(ngModel)]="formData.preservedPart"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="material">Malzeme</label>
+
+              <input
+                id="material"
+                name="material"
+                [(ngModel)]="formData.material"
+              />
+            </div>
+
+
+            <div class="form-field">
+              <label for="productionPlace">Üretim Yeri</label>
+
+              <input
+                id="productionPlace"
+                name="productionPlace"
+                [(ngModel)]="formData.productionPlace"
+              />
+            </div>
+
+
+            <div class="form-field full-width">
+
+              <label for="description">
+                Açıklama
+              </label>
+
+              <textarea
+                id="description"
+                name="description"
+                rows="4"
+                [(ngModel)]="formData.description"
+              ></textarea>
+
+            </div>
+
+
+            <div class="form-field full-width">
+
+              <label for="bibliography">
+                Kaynakça
+              </label>
+
+              <textarea
+                id="bibliography"
+                name="bibliography"
+                rows="3"
+                [(ngModel)]="formData.bibliography"
+              ></textarea>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             GÖRÜNÜRLÜK
+        =================================================== -->
+
+        <section class="form-section">
+
+          <h2>
+            Görünürlük
+          </h2>
+
+          <div class="form-field">
+
+            <label for="visibility">
+              Buluntu Görünürlüğü *
+            </label>
+
+            <select
+              id="visibility"
+              name="visibility"
+              [(ngModel)]="formData.visibility"
+            >
+
+              <option value="PRIVATE_FOR_CREW">
+                Sadece Kazı Ekibi
+              </option>
+
+              <option value="PUBLIC">
+                Herkese Açık
+              </option>
+
+            </select>
+
+          </div>
+
+        </section>
+
+<!-- ==================================================
+     FOTOĞRAFLAR
+=================================================== -->
+
+<section class="form-section photo-section">
+
+  <div class="photo-section-header">
+
+    <div>
+
+      <h2>
+        Fotoğraflar
+      </h2>
+
+      <p>
+        Buluntuya ait fotoğrafları seçebilirsiniz.
+        Fotoğraflar buluntu oluşturulduktan sonra
+        otomatik olarak kayda bağlanacaktır.
+      </p>
+
+    </div>
+
+
+    @if (pendingPhotos().length > 0) {
+
+      <span class="photo-count">
+        {{ pendingPhotos().length }} Fotoğraf
+      </span>
+
+    }
+
+  </div>
+
+
+  <!-- FOTOĞRAF HATASI -->
+
+  @if (photoErrorMessage()) {
+
+    <div class="photo-error-message">
+      {{ photoErrorMessage() }}
+    </div>
+
+  }
+
+
+  <!-- DOSYA SEÇ -->
+
+  <div class="photo-picker">
+
+    <label
+      for="artifactPhotos"
+      class="photo-picker-button"
+      [class.disabled]="saving()"
+    >
+      + FOTOĞRAF SEÇ
+    </label>
+
+    <input
+      #photoInput
+      id="artifactPhotos"
+      type="file"
+      accept="image/*"
+      multiple
+      [disabled]="saving()"
+      (change)="onPhotosSelected($event)"
+    />
+
+    <p>
+      Birden fazla fotoğraf seçebilirsiniz.
+    </p>
+
+  </div>
+
+
+  <!-- SEÇİLEN FOTOĞRAFLAR -->
+
+  @if (pendingPhotos().length > 0) {
+
+    <div class="pending-photo-grid">
+
+      @for (
+        photo of pendingPhotos();
+        track photo.id
+      ) {
+
+        <article class="pending-photo-card">
+
+          <div class="pending-photo-preview">
+
+            <img
+              [src]="photo.previewUrl"
+              [alt]="photo.fileName"
+            />
+
+          </div>
+
+
+          <div class="pending-photo-content">
+
+            <div class="pending-photo-name">
+              {{ photo.fileName }}
+            </div>
+
+
+            <div class="pending-photo-field">
+
+              <label
+                [for]="'photoNo-' + photo.id"
+              >
+                Fotoğraf No
+              </label>
+
+              <input
+                [id]="'photoNo-' + photo.id"
+                type="text"
+                [value]="photo.photoNo"
+                [disabled]="saving()"
+                placeholder="Örn: F-001"
+                (input)="
+                  updatePhotoNo(
+                    photo.id,
+                    $any($event.target).value
+                  )
+                "
+              />
+
+            </div>
+
+
+            <button
+              type="button"
+              class="remove-photo-button"
+              [disabled]="saving()"
+              (click)="
+                removePendingPhoto(
+                  photo.id
+                )
+              "
+            >
+              FOTOĞRAFI KALDIR
+            </button>
+
+          </div>
+
+        </article>
+
+      }
+
+    </div>
+
+  } @else {
+
+    <div class="photo-empty-state">
+
+      <strong>
+        Henüz fotoğraf seçilmedi.
+      </strong>
+
+      <p>
+        Fotoğraf eklemek zorunlu değildir.
+      </p>
+
+    </div>
+
+  }
+
+</section>
+        <!-- ==================================================
+             BUTONLAR
+        =================================================== -->
+
+        <div class="form-actions">
+
+          <button
+            type="button"
+            class="cancel-button"
+            (click)="cancel()"
+            [disabled]="saving()"
+          >
+            İPTAL
+          </button>
+
+          <button
+            type="submit"
+            class="save-button"
+            [disabled]="saving()"
+          >
+            {{
+              saving()
+                ? 'KAYDEDİLİYOR...'
+                : 'KAYDET'
+            }}
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </main>
+
+</div>

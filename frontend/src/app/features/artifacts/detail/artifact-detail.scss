@@ -1,0 +1,694 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+/* ==================================================
+   PAGE
+================================================== */
+
+.detail-page {
+  min-height: 100vh;
+
+  background: #f5f7fb;
+  color: #1e293b;
+
+  font-family:
+    Inter,
+    Arial,
+    Helvetica,
+    sans-serif;
+}
+
+
+/* ==================================================
+   CONTENT
+================================================== */
+
+.detail-content {
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-9);
+}
+
+.detail-inner {
+  width: 100%;
+  max-width: 1100px;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+/* ==================================================
+   HEADER
+================================================== */
+
+.detail-header {
+  margin-bottom: var(--space-4);
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: var(--space-3);
+}
+
+.detail-header .label {
+  display: block;
+
+  margin-bottom: var(--space-1);
+
+  color: #7389a8;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  letter-spacing: 1.2px;
+}
+
+.detail-header h1 {
+  margin: 0;
+
+  color: #0f2747;
+
+  font-family:
+    Georgia,
+    'Times New Roman',
+    serif;
+
+  font-size: 36px;
+  font-weight: 700;
+}
+
+
+/* ==================================================
+   VISIBILITY
+================================================== */
+
+.visibility {
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 28px;
+
+  margin-top: 10px;
+
+  padding: 4px 10px;
+
+  border-radius: 5px;
+
+  background: #fff7ed;
+  color: #c2410c;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 0.3px;
+}
+
+.visibility.public {
+  background: #ecfdf5;
+  color: #15803d;
+}
+
+
+/* ==================================================
+   HEADER ACTIONS
+================================================== */
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: var(--space-1);
+}
+
+.action-button {
+  min-height: 48px;
+
+  padding: 0 var(--space-2);
+
+  border-radius: 5px;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+
+/* PRIMARY */
+
+.action-button.primary {
+  border: 1px solid #2563eb;
+
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.action-button.primary:hover:not(:disabled) {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+
+/* SECONDARY */
+
+.action-button.secondary {
+  border: 1px solid #cbd5e1;
+
+  background: #ffffff;
+  color: #475569;
+}
+
+.action-button.secondary:hover:not(:disabled) {
+  background: #f8fafc;
+
+  border-color: #94a3b8;
+}
+
+
+/* DANGER */
+
+.action-button.danger {
+  border: 1px solid #dc2626;
+
+  background: #ffffff;
+  color: #dc2626;
+}
+
+.action-button.danger:hover:not(:disabled) {
+  background: #dc2626;
+  border-color: #dc2626;
+
+  color: #ffffff;
+}
+
+
+/* DISABLED */
+
+.action-button:disabled {
+  opacity: 0.55;
+
+  cursor: not-allowed;
+}
+
+
+/* ==================================================
+   CARDS
+================================================== */
+
+.detail-card {
+  margin-bottom: var(--space-3);
+
+  padding: var(--space-4);
+
+  border: 1px solid #dce4ef;
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 3px 12px rgba(15, 39, 71, 0.04);
+}
+
+.detail-card h2 {
+  margin: 0 0 var(--space-3);
+
+  padding-bottom: var(--space-2);
+
+  border-bottom: 1px solid #e2e8f0;
+
+  color: #0f2747;
+
+  font-size: 20px;
+  font-weight: 700;
+}
+
+
+/* ==================================================
+   FIELDS
+================================================== */
+
+.field-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: var(--space-3) var(--space-4);
+}
+
+.field {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--space-1);
+}
+
+.field span,
+.long-field span {
+  color: #8293aa;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.4px;
+}
+
+.field strong {
+  color: #304866;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  line-height: 1.5;
+
+  word-break: break-word;
+}
+
+
+/* ==================================================
+   LONG TEXT
+================================================== */
+
+.long-field {
+  margin-bottom: var(--space-3);
+}
+
+.long-field:last-child {
+  margin-bottom: 0;
+}
+
+.long-field p {
+  margin: var(--space-1) 0 0;
+
+  padding: var(--space-2);
+
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+
+  background: #f8fafc;
+  color: #475569;
+
+  font-size: 14px;
+  line-height: 1.7;
+
+  white-space: pre-wrap;
+}
+
+
+/* ==================================================
+   AUDIT
+================================================== */
+
+.audit-card {
+  background: #fbfdff;
+}
+
+
+/* ==================================================
+   PHOTO SECTION HEADER
+================================================== */
+
+.photo-section-header {
+  margin-bottom: var(--space-3);
+
+  padding-bottom: var(--space-2);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: var(--space-3);
+
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.photo-section-header h2 {
+  margin: 0;
+  padding: 0;
+
+  border: none;
+}
+
+.photo-count {
+  color: #8a9bb3;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+/* ==================================================
+   PHOTO GRID
+================================================== */
+
+.photo-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: var(--space-2);
+}
+
+.photo-card {
+  overflow: hidden;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+
+  background: #ffffff;
+}
+
+
+/* ==================================================
+   PHOTO PREVIEW
+================================================== */
+
+.photo-preview {
+  width: 100%;
+  height: 180px;
+
+  padding: 0;
+
+  border: none;
+  border-bottom: 1px solid #e2e8f0;
+
+  background: #f8fafc;
+  color: #64748b;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: var(--space-1);
+
+  cursor: pointer;
+
+  overflow: hidden;
+
+  transition:
+    background 0.2s ease;
+}
+
+.photo-preview:hover {
+  background: #f1f5f9;
+}
+
+.photo-image {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+}
+
+.photo-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: var(--space-1);
+}
+
+.photo-icon {
+  font-size: 32px;
+}
+
+.photo-preview span:last-child {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+
+/* ==================================================
+   PHOTO INFO
+================================================== */
+
+.photo-info {
+  padding: var(--space-2);
+}
+
+.photo-details {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+.photo-number {
+  color: #94a3b8;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.4px;
+}
+
+.photo-details strong {
+  color: #0f2747;
+
+  font-size: 14px;
+}
+
+.photo-file-name {
+  overflow: hidden;
+
+  color: #64748b;
+
+  font-size: 12px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ==================================================
+   PHOTO META
+================================================== */
+
+.photo-meta {
+  padding: var(--space-1) var(--space-2);
+
+  border-top: 1px solid #f1f5f9;
+
+  background: #fbfdff;
+
+  display: flex;
+  justify-content: space-between;
+
+  gap: var(--space-1);
+
+  color: #94a3b8;
+
+  font-size: 11px;
+}
+
+
+/* ==================================================
+   PHOTO STATE
+================================================== */
+
+.photo-state {
+  padding: var(--space-5) var(--space-3);
+
+  border: 1px dashed #cbd5e1;
+  border-radius: 6px;
+
+  background: #f8fafc;
+  color: #64748b;
+
+  text-align: center;
+
+  font-size: 13px;
+}
+
+.photo-state strong {
+  display: block;
+
+  margin-bottom: var(--space-1);
+
+  color: #334155;
+
+  font-size: 14px;
+}
+
+.photo-state p {
+  margin: 0;
+}
+
+.photo-state.error {
+  border-color: #fecaca;
+
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+
+/* ==================================================
+   LOADING / ERROR
+================================================== */
+
+.state-box {
+  width: min(500px, 100%);
+
+  margin: 80px auto;
+
+  padding: var(--space-4);
+
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  color: #64748b;
+
+  text-align: center;
+
+  font-size: 14px;
+}
+
+.state-box.error {
+  border-color: #fecaca;
+
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.state-box.error p {
+  margin: 0 0 var(--space-2);
+}
+
+.state-box button {
+  min-height: 48px;
+
+  padding: 0 var(--space-2);
+
+  border: none;
+  border-radius: 5px;
+
+  background: #0f2747;
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease;
+}
+
+.state-box button:hover {
+  background: #173a68;
+}
+
+
+/* ==================================================
+   TABLET
+================================================== */
+
+@media (max-width: 950px) {
+
+  .field-grid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+  }
+
+  .photo-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+/* ==================================================
+   SMALL TABLET
+================================================== */
+
+@media (max-width: 750px) {
+
+  .detail-content {
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-6);
+  }
+
+  .detail-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .detail-header h1 {
+    font-size: 31px;
+  }
+
+  .field-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+/* ==================================================
+   MOBILE
+================================================== */
+
+@media (max-width: 500px) {
+
+  .detail-header h1 {
+    font-size: 28px;
+  }
+
+  .header-actions {
+    width: 100%;
+
+    flex-direction: column;
+  }
+
+  .action-button {
+    width: 100%;
+  }
+
+  .detail-card {
+    padding: var(--space-2);
+  }
+
+  .field-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .photo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .photo-meta {
+    flex-direction: column;
+  }
+
+}

@@ -1,0 +1,311 @@
+<div class="user-edit-page">
+
+  <!-- =========================
+       CONTENT
+  ========================== -->
+
+  <main class="form-content app-container">
+
+    <div class="form-inner">
+
+      <section class="page-header">
+
+        <span class="page-label">
+          KULLANICI YÖNETİMİ
+        </span>
+
+        <h1>
+          Kullanıcı Düzenle
+        </h1>
+
+        <p>
+          Kullanıcının hesap bilgilerini ve
+          sistem rolünü güncelleyebilirsiniz.
+        </p>
+
+      </section>
+
+
+      <!-- LOADING -->
+
+      <div
+        *ngIf="loading()"
+        class="state-box"
+      >
+        Kullanıcı bilgileri yükleniyor...
+      </div>
+
+
+      <!-- ERROR -->
+
+      <div
+        *ngIf="errorMessage()"
+        class="error-message"
+      >
+        {{ errorMessage() }}
+      </div>
+
+
+      <!-- FORM -->
+
+      <form
+        *ngIf="!loading()"
+        class="user-form"
+        (ngSubmit)="saveUser()"
+      >
+
+        <!-- =========================
+             KİŞİSEL BİLGİLER
+        ========================== -->
+
+        <section class="form-section">
+
+          <div class="section-header">
+
+            <div>
+
+              <h2>
+                Kişisel Bilgiler
+              </h2>
+
+              <p>
+                Kullanıcının temel hesap
+                bilgilerini güncelleyin.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="form-grid">
+
+            <div class="form-field">
+
+              <label for="firstName">
+                Ad
+                <span class="required">*</span>
+              </label>
+
+              <input
+                id="firstName"
+                name="firstName"
+                type="text"
+                [(ngModel)]="formData.firstName"
+                [disabled]="saving()"
+                autocomplete="given-name"
+                required
+              />
+
+            </div>
+
+
+            <div class="form-field">
+
+              <label for="lastName">
+                Soyad
+                <span class="required">*</span>
+              </label>
+
+              <input
+                id="lastName"
+                name="lastName"
+                type="text"
+                [(ngModel)]="formData.lastName"
+                [disabled]="saving()"
+                autocomplete="family-name"
+                required
+              />
+
+            </div>
+
+
+            <div class="form-field full-width">
+
+              <label for="email">
+                E-posta
+                <span class="required">*</span>
+              </label>
+
+              <input
+                id="email"
+                name="email"
+                type="email"
+                [(ngModel)]="formData.email"
+                [disabled]="saving()"
+                autocomplete="email"
+                required
+              />
+
+              <small>
+                Kullanıcı sisteme bu e-posta
+                adresiyle giriş yapacaktır.
+              </small>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =========================
+             ROL
+        ========================== -->
+
+        <section class="form-section">
+
+          <div class="section-header">
+
+            <div>
+
+              <h2>
+                Kullanıcı Rolü
+              </h2>
+
+              @if (isCurrentUser()) {
+
+                <p>
+                  Güvenlik nedeniyle kendi
+                  hesabınızın rolünü değiştiremezsiniz.
+                </p>
+
+              } @else {
+
+                <p>
+                  Kullanıcının erişim seviyesini
+                  değiştirebilirsiniz.
+                </p>
+
+              }
+
+            </div>
+
+          </div>
+
+
+          <div class="role-grid">
+
+            <label
+              *ngFor="let role of roles"
+              class="role-option"
+              [class.selected]="
+                formData.role === role.value
+              "
+              [class.disabled]="
+                isCurrentUser()
+              "
+            >
+
+              <input
+                type="radio"
+                name="role"
+                [value]="role.value"
+                [(ngModel)]="formData.role"
+                [disabled]="
+                  saving() ||
+                  isCurrentUser()
+                "
+              />
+
+              <div class="role-content">
+
+                <div class="role-title">
+
+                  <span class="radio-indicator">
+                  </span>
+
+                  <strong>
+                    {{ role.label }}
+                  </strong>
+
+                </div>
+
+                <p>
+                  {{ role.description }}
+                </p>
+
+              </div>
+
+            </label>
+
+          </div>
+
+        </section>
+
+
+        <!-- =========================
+             ŞİFRE NOTU
+        ========================== -->
+
+        <section class="info-box">
+
+          <strong>
+            Şifre Yönetimi
+          </strong>
+
+          <p>
+            Bu ekrandan kullanıcının şifresi
+            değiştirilmez. Şifre işlemleri ayrı
+            şifre değiştirme akışı üzerinden yapılır.
+          </p>
+
+        </section>
+
+
+        @if (isCurrentUser()) {
+
+          <section class="info-box">
+
+            <strong>
+              Mevcut Hesap
+            </strong>
+
+            <p>
+              Kendi ad, soyad ve e-posta
+              bilgilerinizi değiştirebilirsiniz;
+              ancak kendi rolünüzü değiştiremezsiniz.
+            </p>
+
+          </section>
+
+        }
+
+
+        <!-- =========================
+             ACTIONS
+        ========================== -->
+
+        <div class="form-actions">
+
+          <button
+            type="button"
+            class="cancel-button"
+            [disabled]="saving()"
+            (click)="cancel()"
+          >
+            İptal
+          </button>
+
+
+          <button
+            type="submit"
+            class="save-button"
+            [disabled]="saving()"
+          >
+            {{
+              saving()
+                ? 'Kaydediliyor...'
+                : 'Değişiklikleri Kaydet'
+            }}
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </main>
+
+</div>

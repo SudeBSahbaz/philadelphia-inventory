@@ -1,0 +1,134 @@
+<div class="home-page">
+
+  <!-- ANA İÇERİK -->
+  <main class="home-content app-container">
+
+    <section class="search-section">
+
+      <div class="section-heading">
+
+        <h1>
+          BULUNTU KODU
+        </h1>
+
+        <p>
+          Aramak istediğiniz buluntunun kodunu giriniz.
+        </p>
+
+      </div>
+
+
+      <!-- BULUNTU KODU INPUT -->
+      <div class="search-box">
+
+        <input
+          type="text"
+          [(ngModel)]="artifactCode"
+          placeholder="Buluntu kodunu giriniz..."
+          autocomplete="off"
+          (keyup.enter)="searchArtifact()"
+        />
+
+        <button
+          type="button"
+          class="input-search-button"
+          (click)="searchArtifact()"
+          [disabled]="!artifactCode.trim() || searching()"
+          title="Buluntu Ara"
+        >
+          ⌕
+        </button>
+
+      </div>
+
+
+      <!-- BUTONLAR -->
+      <div class="action-buttons">
+
+        <button
+          type="button"
+          class="button button-primary"
+          (click)="searchArtifact()"
+          [disabled]="!artifactCode.trim() || searching()"
+        >
+
+          <span class="button-icon">
+            ⌕
+          </span>
+
+          {{
+            searching()
+              ? 'ARANIYOR...'
+              : 'BULUNTU ARA'
+          }}
+
+        </button>
+
+
+        @if (canCreateArtifact()) {
+
+          <button
+            type="button"
+            class="button button-create"
+            (click)="createArtifact()"
+          >
+
+            <span class="button-icon">
+              ＋
+            </span>
+
+            BULUNTU OLUŞTUR
+
+          </button>
+
+        }
+
+
+        <button
+          type="button"
+          class="button button-secondary"
+          (click)="advancedSearch()"
+        >
+
+          <span class="button-icon">
+            ▽
+          </span>
+
+          GELİŞMİŞ ARAMA
+
+        </button>
+
+      </div>
+
+
+      <!-- ARAMA HATASI -->
+      @if (searchErrorMessage()) {
+
+        <div class="search-error">
+          {{ searchErrorMessage() }}
+        </div>
+
+      }
+
+
+      <!-- BİLGİ -->
+      <div class="information-box">
+
+        <span class="information-icon">
+          ⓘ
+        </span>
+
+        <p>
+          <strong>Not:</strong>
+          Buluntu kodunu girerek hızlı arama yapabilir veya
+          gelişmiş arama ile detaylı filtreleme
+          gerçekleştirebilirsiniz.
+        </p>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>

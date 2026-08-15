@@ -1,0 +1,222 @@
+<div class="profile-page">
+
+  <main class="profile-content app-container">
+
+    <div class="profile-inner">
+
+      <section class="page-header">
+
+        <span class="page-label">
+          HESABIM
+        </span>
+
+        <h1>
+          Profil
+        </h1>
+
+        <p>
+          Hesap bilgilerinizi görüntüleyebilir ve güncelleyebilirsiniz.
+        </p>
+
+      </section>
+
+
+      @if (loading()) {
+
+        <div class="state-box">
+          Profil bilgileri yükleniyor...
+        </div>
+
+      } @else {
+
+        @if (errorMessage()) {
+
+          <div class="message-box error">
+            {{ errorMessage() }}
+          </div>
+
+        }
+
+
+        @if (successMessage()) {
+
+          <div class="message-box success">
+            {{ successMessage() }}
+          </div>
+
+        }
+
+
+        <section class="profile-card">
+
+          <div class="section-header">
+
+            <div>
+
+              <h2>
+                Hesap Bilgileri
+              </h2>
+
+              <p>
+                Ad, soyad ve e-posta bilgilerinizi düzenleyebilirsiniz.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <form
+            class="profile-form"
+            (ngSubmit)="saveProfile()"
+          >
+
+            <div class="form-grid">
+
+              <div class="form-field">
+
+                <label for="firstName">
+                  Ad
+                </label>
+
+                <input
+                  id="firstName"
+                  name="firstName"
+                  type="text"
+                  [(ngModel)]="form.firstName"
+                  [disabled]="saving()"
+                  required
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="lastName">
+                  Soyad
+                </label>
+
+                <input
+                  id="lastName"
+                  name="lastName"
+                  type="text"
+                  [(ngModel)]="form.lastName"
+                  [disabled]="saving()"
+                  required
+                />
+
+              </div>
+
+
+              <div class="form-field full-width">
+
+                <label for="email">
+                  E-posta
+                </label>
+
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  [(ngModel)]="form.email"
+                  [disabled]="saving()"
+                  required
+                />
+
+              </div>
+
+
+              <div class="form-field full-width">
+
+                <label>
+                  Rol
+                </label>
+
+                <div class="readonly-field">
+                  {{ getRoleLabel() }}
+                </div>
+
+                <small>
+                  Kullanıcı rolü yalnızca sistem yöneticisi tarafından değiştirilebilir.
+                </small>
+
+              </div>
+
+            </div>
+
+
+            <div class="form-actions">
+
+              <button
+                type="submit"
+                class="save-button"
+                [disabled]="saving()"
+              >
+                {{
+                  saving()
+                    ? 'Kaydediliyor...'
+                    : 'Bilgileri Kaydet'
+                }}
+              </button>
+
+            </div>
+
+          </form>
+
+        </section>
+
+
+        <section class="profile-card password-card">
+
+          <div class="section-header">
+
+            <div>
+
+              <h2>
+                Şifre
+              </h2>
+
+              <p>
+                Hesabınızın güvenliği için şifrenizi değiştirebilirsiniz.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="password-content">
+
+            <div>
+
+              <strong>
+                Şifre Değiştir
+              </strong>
+
+              <p>
+                Mevcut şifrenizi doğrulayarak yeni bir şifre belirleyebilirsiniz.
+              </p>
+
+            </div>
+
+
+            <button
+              type="button"
+              class="password-button"
+              (click)="goToChangePassword()"
+            >
+              Şifre Değiştir
+            </button>
+
+          </div>
+
+        </section>
+
+      }
+
+    </div>
+
+  </main>
+
+</div>

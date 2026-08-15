@@ -42,7 +42,12 @@ public class Artifact {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "artifact_code", nullable = false, unique = true, length = 150)
+    @Column(
+            name = "artifact_code",
+            nullable = false,
+            unique = true,
+            length = 150
+    )
     private String artifactCode;
 
     @Column(name = "artifact_type")
@@ -160,18 +165,27 @@ public class Artifact {
     @Column(nullable = false, length = 30)
     private ArtifactVisibility visibility;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    // Buluntuyu oluşturan kullanıcı
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "created_by", nullable = false)
     private User createdBy;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    // Buluntuyu son güncelleyen kullanıcı
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "updated_by", nullable = false)
     private User updatedBy;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(
+            name = "created_at",
+            nullable = false,
+            updatable = false
+    )
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at", nullable = false)
+    @Column(
+            name = "updated_at",
+            nullable = false
+    )
     private LocalDateTime updatedAt;
 
     @Column(nullable = false)
@@ -180,13 +194,15 @@ public class Artifact {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    // Buluntuyu silen kullanıcı
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "deleted_by")
     private User deletedBy;
 
     @PrePersist
     protected void onCreate() {
         LocalDateTime now = LocalDateTime.now();
+
         createdAt = now;
         updatedAt = now;
     }

@@ -1,0 +1,498 @@
+:host {
+  display: block;
+  min-height: 100vh;
+
+  background: #f5f7fb;
+  color: #10233f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+/* ==================================================
+   PAGE
+================================================== */
+
+.user-form-page {
+  min-height: 100vh;
+}
+
+
+/* ==================================================
+   CONTENT
+================================================== */
+
+.form-content {
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-9);
+}
+
+.form-inner {
+  width: 100%;
+  max-width: 900px;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+/* ==================================================
+   HEADER
+================================================== */
+
+.page-header {
+  margin-bottom: var(--space-4);
+}
+
+.page-label {
+  display: block;
+
+  margin-bottom: var(--space-1);
+
+  color: #7389a8;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  letter-spacing: 1.2px;
+}
+
+.page-header h1 {
+  margin: 0 0 var(--space-1);
+
+  color: #0f2747;
+
+  font-family:
+    Georgia,
+    'Times New Roman',
+    serif;
+
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.page-header p {
+  max-width: 650px;
+
+  margin: 0;
+
+  color: #7185a1;
+
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+
+/* ==================================================
+   ERROR
+================================================== */
+
+.error-message {
+  margin-bottom: var(--space-3);
+
+  padding: var(--space-2);
+
+  border: 1px solid #ffbcbc;
+  border-radius: 8px;
+
+  background: #fff4f4;
+  color: #c92d2d;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+
+/* ==================================================
+   FORM
+================================================== */
+
+.user-form {
+  width: 100%;
+}
+
+.form-section {
+  margin-bottom: var(--space-3);
+
+  padding: var(--space-4);
+
+  border: 1px solid #d7e1ee;
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 3px 12px rgba(16, 35, 63, 0.04);
+}
+
+
+/* ==================================================
+   SECTION HEADER
+================================================== */
+
+.section-header {
+  margin-bottom: var(--space-3);
+
+  padding-bottom: var(--space-2);
+
+  border-bottom: 1px solid #e2e9f2;
+}
+
+.section-header h2 {
+  margin: 0 0 6px;
+
+  color: #0f2747;
+
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.section-header p {
+  margin: 0;
+
+  color: #8293aa;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+
+/* ==================================================
+   GRID
+================================================== */
+
+.form-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: var(--space-3);
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+
+/* ==================================================
+   FORM FIELD
+================================================== */
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--space-1);
+}
+
+.form-field label {
+  color: #304866;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.required {
+  color: #d33b3b;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  min-height: 46px;
+
+  padding: 0 14px;
+
+  border: 1px solid #cbd8e8;
+  border-radius: 6px;
+
+  background: #ffffff;
+  color: #203a5c;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.form-field input::placeholder {
+  color: #a2afc0;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-color: #2f6fed;
+
+  box-shadow:
+    0 0 0 3px rgba(47, 111, 237, 0.09);
+}
+
+.form-field input:disabled,
+.form-field select:disabled,
+.form-field textarea:disabled {
+  background: #f5f7fa;
+
+  cursor: not-allowed;
+}
+
+.form-field small {
+  color: #8a9bb3;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+
+/* ==================================================
+   ROLE OPTIONS
+================================================== */
+
+.role-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: var(--space-2);
+}
+
+.role-option {
+  min-height: 145px;
+
+  padding: var(--space-2);
+
+  position: relative;
+
+  border: 1px solid #d6e0ec;
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.role-option:hover {
+  border-color: #aebfd5;
+
+  background: #fbfcfe;
+}
+
+.role-option.selected {
+  border-color: #2f6fed;
+
+  background: #f6f9ff;
+
+  box-shadow:
+    0 0 0 2px rgba(47, 111, 237, 0.07);
+}
+
+.role-option input {
+  position: absolute;
+
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+.role-content {
+  height: 100%;
+}
+
+.role-title {
+  margin-bottom: var(--space-2);
+
+  display: flex;
+  align-items: center;
+
+  gap: var(--space-1);
+}
+
+.role-title strong {
+  color: #183657;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.radio-indicator {
+  width: 17px;
+  height: 17px;
+
+  flex-shrink: 0;
+
+  position: relative;
+
+  border: 2px solid #b8c6d8;
+  border-radius: 50%;
+
+  background: #ffffff;
+}
+
+.role-option.selected .radio-indicator {
+  border-color: #2f6fed;
+}
+
+.role-option.selected .radio-indicator::after {
+  content: '';
+
+  width: 7px;
+  height: 7px;
+
+  position: absolute;
+
+  top: 3px;
+  left: 3px;
+
+  border-radius: 50%;
+
+  background: #2f6fed;
+}
+
+.role-content p {
+  margin: 0;
+
+  color: #7a8da7;
+
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+
+/* ==================================================
+   ACTIONS
+================================================== */
+
+.form-actions {
+  margin-top: var(--space-4);
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: var(--space-2);
+}
+
+.form-actions button {
+  min-width: 165px;
+  min-height: 48px;
+
+  padding: 0 20px;
+
+  border-radius: 6px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.cancel-button {
+  border: 1px solid #c7d3e2;
+
+  background: #ffffff;
+  color: #405a78;
+}
+
+.cancel-button:hover:not(:disabled) {
+  background: #f5f7fa;
+}
+
+.save-button {
+  border: 1px solid #2f6fed;
+
+  background: #2f6fed;
+  color: #ffffff;
+}
+
+.save-button:hover:not(:disabled) {
+  border-color: #255fd0;
+
+  background: #255fd0;
+}
+
+.form-actions button:disabled {
+  opacity: 0.55;
+
+  cursor: not-allowed;
+}
+
+
+/* ==================================================
+   RESPONSIVE
+================================================== */
+
+@media (max-width: 768px) {
+
+  .form-content {
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-6);
+  }
+
+  .page-header h1 {
+    font-size: 31px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full-width {
+    grid-column: auto;
+  }
+
+  .role-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .role-option {
+    min-height: auto;
+  }
+
+  .form-section {
+    padding: var(--space-3);
+  }
+}
+
+
+@media (max-width: 520px) {
+
+  .form-section {
+    padding: var(--space-2);
+  }
+
+  .page-header h1 {
+    font-size: 28px;
+  }
+
+  .page-header p {
+    font-size: 14px;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+}

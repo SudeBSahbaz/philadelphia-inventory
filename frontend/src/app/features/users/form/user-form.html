@@ -1,0 +1,308 @@
+<div class="user-form-page">
+
+  <!-- =========================
+       CONTENT
+  ========================== -->
+
+  <main class="form-content app-container">
+
+    <div class="form-inner">
+
+      <!-- HEADER -->
+
+      <section class="page-header">
+
+        <span class="page-label">
+          KULLANICI YÖNETİMİ
+        </span>
+
+        <h1>
+          Yeni Kullanıcı
+        </h1>
+
+        <p>
+          Sisteme erişecek yeni kullanıcı için
+          hesap bilgilerini ve yetki rolünü belirleyin.
+        </p>
+
+      </section>
+
+
+      <!-- ERROR -->
+
+      <div
+        *ngIf="errorMessage()"
+        class="error-message"
+      >
+        {{ errorMessage() }}
+      </div>
+
+
+      <!-- FORM -->
+
+      <form
+        class="user-form"
+        (ngSubmit)="saveUser()"
+      >
+
+        <!-- =========================
+             KİŞİSEL BİLGİLER
+        ========================== -->
+
+        <section class="form-section">
+
+          <div class="section-header">
+
+            <div>
+
+              <h2>
+                Kişisel Bilgiler
+              </h2>
+
+              <p>
+                Kullanıcının temel hesap bilgilerini girin.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="form-grid">
+
+            <!-- AD -->
+
+            <div class="form-field">
+
+              <label for="firstName">
+                Ad
+                <span class="required">*</span>
+              </label>
+
+              <input
+                id="firstName"
+                name="firstName"
+                type="text"
+                [(ngModel)]="formData.firstName"
+                [disabled]="saving()"
+                autocomplete="given-name"
+                placeholder="Ad"
+                required
+              />
+
+            </div>
+
+
+            <!-- SOYAD -->
+
+            <div class="form-field">
+
+              <label for="lastName">
+                Soyad
+                <span class="required">*</span>
+              </label>
+
+              <input
+                id="lastName"
+                name="lastName"
+                type="text"
+                [(ngModel)]="formData.lastName"
+                [disabled]="saving()"
+                autocomplete="family-name"
+                placeholder="Soyad"
+                required
+              />
+
+            </div>
+
+
+            <!-- E-POSTA -->
+
+            <div class="form-field full-width">
+
+              <label for="email">
+                E-posta
+                <span class="required">*</span>
+              </label>
+
+              <input
+                id="email"
+                name="email"
+                type="email"
+                [(ngModel)]="formData.email"
+                [disabled]="saving()"
+                autocomplete="email"
+                placeholder="ornek@universite.edu.tr"
+                required
+              />
+
+              <small>
+                Kullanıcı sisteme bu e-posta adresiyle giriş yapacaktır.
+              </small>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =========================
+             ROL
+        ========================== -->
+
+        <section class="form-section">
+
+          <div class="section-header">
+
+            <div>
+
+              <h2>
+                Kullanıcı Rolü
+              </h2>
+
+              <p>
+                Kullanıcının sistem içerisindeki
+                erişim seviyesini belirleyin.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="role-grid">
+
+            <label
+              *ngFor="let role of roles"
+              class="role-option"
+              [class.selected]="formData.role === role.value"
+            >
+
+              <input
+                type="radio"
+                name="role"
+                [value]="role.value"
+                [(ngModel)]="formData.role"
+                [disabled]="saving()"
+              />
+
+              <div class="role-content">
+
+                <div class="role-title">
+
+                  <span class="radio-indicator"></span>
+
+                  <strong>
+                    {{ role.label }}
+                  </strong>
+
+                </div>
+
+                <p>
+                  {{ role.description }}
+                </p>
+
+              </div>
+
+            </label>
+
+          </div>
+
+        </section>
+
+
+        <!-- =========================
+             GEÇİCİ ŞİFRE
+        ========================== -->
+
+        <section class="form-section">
+
+          <div class="section-header">
+
+            <div>
+
+              <h2>
+                İlk Giriş Bilgileri
+              </h2>
+
+              <p>
+                Kullanıcının ilk girişte kullanacağı
+                geçici şifreyi belirleyin.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="form-field">
+
+            <label for="password">
+              Geçici Şifre
+              <span class="required">*</span>
+            </label>
+
+            <input
+              id="password"
+              name="password"
+              type="password"
+              [(ngModel)]="formData.password"
+              [disabled]="saving()"
+              autocomplete="new-password"
+              placeholder="Geçici şifre"
+              minlength="8"
+              required
+            />
+
+            <small>
+              Şifre en az 8 karakter olmalı ve
+              en az bir harf ile bir rakam içermelidir.
+            </small>
+
+            <small>
+              Kullanıcı ilk girişten sonra şifresini değiştirmelidir.
+            </small>
+
+          </div>
+
+        </section>
+
+
+        <!-- =========================
+             ACTIONS
+        ========================== -->
+
+        <div class="form-actions">
+
+          <button
+            type="button"
+            class="cancel-button"
+            [disabled]="saving()"
+            (click)="cancel()"
+          >
+            İptal
+          </button>
+
+
+          <button
+            type="submit"
+            class="save-button"
+            [disabled]="saving()"
+          >
+            {{
+              saving()
+                ? 'Oluşturuluyor...'
+                : 'Kullanıcı Oluştur'
+            }}
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </main>
+
+</div>

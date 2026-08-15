@@ -1,0 +1,303 @@
+:host {
+  display: block;
+}
+
+/* --------------------------------------------------
+   TOPBAR
+-------------------------------------------------- */
+
+.topbar {
+  height: 64px;
+
+  display: grid;
+  grid-template-columns: 260px 1fr auto;
+  align-items: center;
+
+  padding: 0 28px;
+
+  background: #0f2747;
+  color: #ffffff;
+
+  box-shadow:
+    0 2px 8px rgba(15, 39, 71, 0.14);
+
+  box-sizing: border-box;
+}
+
+
+/* --------------------------------------------------
+   BRAND
+-------------------------------------------------- */
+
+.brand {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  width: fit-content;
+
+  cursor: pointer;
+}
+
+.brand-icon {
+  font-size: 24px;
+}
+
+.brand-text {
+  font-family:
+    Georgia,
+    'Times New Roman',
+    serif;
+
+  font-size: 18px;
+  font-weight: 600;
+
+  letter-spacing: 0.2px;
+}
+
+
+/* --------------------------------------------------
+   NAVIGATION
+-------------------------------------------------- */
+
+.navigation {
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  gap: 6px;
+}
+
+.nav-item {
+  position: relative;
+
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 18px;
+
+  border: none;
+
+  background: transparent;
+
+  color: rgba(255, 255, 255, 0.82);
+
+  font-size: 14px;
+  font-weight: 500;
+
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+
+  color: #ffffff;
+}
+
+.nav-item.active {
+  color: #ffffff;
+
+  font-weight: 600;
+}
+
+.nav-item.active::after {
+  content: '';
+
+  position: absolute;
+
+  left: 18px;
+  right: 18px;
+  bottom: 0;
+
+  height: 3px;
+
+  border-radius: 3px 3px 0 0;
+
+  background: #3b82f6;
+}
+
+
+/* --------------------------------------------------
+   USER
+-------------------------------------------------- */
+
+.user-area {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+  color: #0f2747;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 120px;
+}
+
+.user-name {
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.user-role {
+  margin-top: 2px;
+
+  color: rgba(255, 255, 255, 0.62);
+
+  font-size: 11px;
+}
+
+.logout-button {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: none;
+  border-radius: 6px;
+
+  background: transparent;
+  color: rgba(255, 255, 255, 0.8);
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.logout-icon {
+  width: 20px;
+  height: 20px;
+
+  display: block;
+}
+
+.logout-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+
+  color: #ffffff;
+}
+
+
+/* --------------------------------------------------
+   RESPONSIVE
+-------------------------------------------------- */
+
+@media (max-width: 900px) {
+
+  .topbar {
+    grid-template-columns:
+      auto 1fr auto;
+
+    padding:
+      0 18px;
+  }
+
+  .brand-text {
+    display: none;
+  }
+
+  .navigation {
+    justify-content: center;
+  }
+
+  .nav-item {
+    padding:
+      0 11px;
+
+    font-size: 13px;
+  }
+
+  .user-info {
+    display: none;
+  }
+}
+
+
+@media (max-width: 650px) {
+
+  .topbar {
+    height: auto;
+
+    min-height: 64px;
+
+    grid-template-columns:
+      1fr auto;
+
+    row-gap: 6px;
+
+    padding:
+      10px 14px;
+  }
+
+  .brand {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .user-area {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .navigation {
+    grid-column:
+      1 / -1;
+
+    grid-row: 2;
+
+    width: 100%;
+
+    overflow-x: auto;
+
+    justify-content:
+      flex-start;
+  }
+
+  .nav-item {
+    height: 38px;
+
+    white-space: nowrap;
+  }
+
+  .nav-item.active::after {
+    left: 10px;
+    right: 10px;
+  }
+}

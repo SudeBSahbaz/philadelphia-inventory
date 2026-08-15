@@ -1,0 +1,621 @@
+<div class="detail-page">
+
+  <main class="detail-content app-container">
+
+    <div class="detail-inner">
+
+      @if (loading()) {
+
+        <div class="state-box">
+          Buluntu yükleniyor...
+        </div>
+
+      } @else if (errorMessage()) {
+
+        <div class="state-box error">
+
+          <p>
+            {{ errorMessage() }}
+          </p>
+
+          <button
+            type="button"
+            (click)="goBack()"
+          >
+            Buluntulara Dön
+          </button>
+
+        </div>
+
+      } @else if (artifact(); as artifact) {
+
+
+        <!-- =========================
+             BAŞLIK
+        ========================== -->
+
+        <section class="detail-header">
+
+          <div>
+
+            <span class="label">
+              BULUNTU KODU
+            </span>
+
+            <h1>
+              {{ artifact.artifactCode }}
+            </h1>
+
+            <span
+              class="visibility"
+              [class.public]="artifact.visibility === 'PUBLIC'"
+            >
+              {{
+                artifact.visibility === 'PUBLIC'
+                  ? 'PUBLIC'
+                  : 'EKİBE ÖZEL'
+              }}
+            </span>
+
+          </div>
+
+
+          <div class="header-actions">
+
+            @if (canEdit()) {
+
+              <button
+                type="button"
+                class="action-button secondary"
+                [disabled]="downloadingPdf()"
+                (click)="downloadPdf()"
+              >
+                {{
+                  downloadingPdf()
+                    ? 'PDF Hazırlanıyor...'
+                    : 'PDF İndir'
+                }}
+              </button>
+
+
+              <button
+                type="button"
+                class="action-button primary"
+                (click)="editArtifact()"
+              >
+                Düzenle
+              </button>
+
+
+              <button
+                type="button"
+                class="action-button secondary"
+                (click)="showHistory()"
+              >
+                Değişiklikleri Görüntüle
+              </button>
+
+            }
+
+
+            @if (isAdmin()) {
+
+              <button
+                type="button"
+                class="action-button danger"
+                [disabled]="deleting()"
+                (click)="deleteArtifact()"
+              >
+                {{
+                  deleting()
+                    ? 'Siliniyor...'
+                    : 'Buluntuyu Sil'
+                }}
+              </button>
+
+            }
+
+          </div>
+
+        </section>
+
+
+        <!-- =========================
+             TEMEL BİLGİLER
+        ========================== -->
+
+        <section class="detail-card">
+
+          <h2>
+            Temel Bilgiler
+          </h2>
+
+          <div class="field-grid">
+
+            <div class="field">
+              <span>Tür</span>
+              <strong>{{ artifact.type || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Form No</span>
+              <strong>{{ artifact.formNo || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Envanter No</span>
+              <strong>{{ artifact.inventoryNo || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Etüt No</span>
+              <strong>{{ artifact.studyNo || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Torba No</span>
+              <strong>{{ artifact.bagNo || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Kutu No</span>
+              <strong>{{ artifact.boxNo || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Derinlik</span>
+              <strong>{{ artifact.depth || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Kasa</span>
+              <strong>{{ artifact.box || '-' }}</strong>
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =========================
+             BULUNTU BİLGİLERİ
+        ========================== -->
+
+        <section class="detail-card">
+
+          <h2>
+            Buluntu Bilgileri
+          </h2>
+
+          <div class="field-grid">
+
+            <div class="field">
+              <span>Buluntu Yeri</span>
+              <strong>{{ artifact.findLocation || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Mevki</span>
+              <strong>{{ artifact.locality || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Sektör</span>
+              <strong>{{ artifact.sector || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Buluntu Tarihi</span>
+              <strong>{{ artifact.findDate || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Buluntu Yılı</span>
+              <strong>{{ artifact.findYear || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Alan</span>
+              <strong>{{ artifact.area || '-' }}</strong>
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =========================
+             TİPOLOJİ
+        ========================== -->
+
+        <section class="detail-card">
+
+          <h2>
+            Tipoloji ve Teknik Özellikler
+          </h2>
+
+          <div class="field-grid">
+
+            <div class="field">
+              <span>Form</span>
+              <strong>{{ artifact.form || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Bezeme Türü</span>
+              <strong>{{ artifact.decorationType || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Hamur Yapısı</span>
+              <strong>{{ artifact.pasteStructure || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Pişme</span>
+              <strong>{{ artifact.firing || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Teknik</span>
+              <strong>{{ artifact.technique || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Katkı</span>
+              <strong>{{ artifact.temper || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Katkı Miktarı</span>
+              <strong>{{ artifact.temperAmount || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Astar Yapısı</span>
+              <strong>{{ artifact.slipStructure || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Açı</span>
+              <strong>{{ artifact.angle || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Dönem</span>
+              <strong>{{ artifact.period || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Cins</span>
+              <strong>{{ artifact.kind || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Munsell</span>
+              <strong>{{ artifact.munsell || '-' }}</strong>
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =========================
+             ÖLÇÜLER
+        ========================== -->
+
+        <section class="detail-card">
+
+          <h2>
+            Ölçüler ve Diğer Bilgiler
+          </h2>
+
+          <div class="field-grid">
+
+            <div class="field">
+              <span>Çap</span>
+              <strong>{{ artifact.diameter || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Ağırlık</span>
+              <strong>{{ artifact.weight || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Uzunluk</span>
+              <strong>{{ artifact.length || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Genişlik</span>
+              <strong>{{ artifact.width || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Kalınlık</span>
+              <strong>{{ artifact.thickness || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Çizim No</span>
+              <strong>{{ artifact.drawingNo || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Kor. Kısım</span>
+              <strong>{{ artifact.preservedPart || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Malzeme</span>
+              <strong>{{ artifact.material || '-' }}</strong>
+            </div>
+
+            <div class="field">
+              <span>Üretim Yeri</span>
+              <strong>{{ artifact.productionPlace || '-' }}</strong>
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =========================
+             FOTOĞRAFLAR
+        ========================== -->
+
+        <section class="detail-card">
+
+          <div class="photo-section-header">
+
+            <h2>
+              Fotoğraflar
+            </h2>
+
+            <span class="photo-count">
+              {{ photos().length }} Fotoğraf
+            </span>
+
+          </div>
+
+
+          @if (photosLoading()) {
+
+            <div class="photo-state">
+              Fotoğraflar yükleniyor...
+            </div>
+
+          } @else if (photoErrorMessage()) {
+
+            <div class="photo-state error">
+              {{ photoErrorMessage() }}
+            </div>
+
+          } @else if (photos().length === 0) {
+
+            <div class="photo-state">
+
+              <strong>
+                Henüz fotoğraf eklenmemiş.
+              </strong>
+
+              <p>
+                Bu buluntuya ait fotoğraflar burada görüntülenecektir.
+              </p>
+
+            </div>
+
+          } @else {
+
+            <div class="photo-grid">
+
+              @for (
+                photo of photos();
+                track photo.id
+              ) {
+
+                <div class="photo-card">
+
+                  <button
+                    type="button"
+                    class="photo-preview"
+                    (click)="openPhoto(photo)"
+                  >
+
+                    @if (
+                      photoUrls()[photo.id];
+                      as photoUrl
+                    ) {
+
+                      <img
+                        [src]="photoUrl"
+                        [alt]="photo.photoNo || photo.fileName"
+                        class="photo-image"
+                      >
+
+                    } @else {
+
+                      <div class="photo-placeholder">
+
+                        <span class="photo-icon">
+                          🖼
+                        </span>
+
+                        <span>
+                          Fotoğraf yükleniyor...
+                        </span>
+
+                      </div>
+
+                    }
+
+                  </button>
+
+
+                  <div class="photo-info">
+
+                    <div class="photo-details">
+
+                      @if (photo.photoNo) {
+
+                        <span class="photo-number">
+                          FOTOĞRAF NO
+                        </span>
+
+                        <strong>
+                          {{ photo.photoNo }}
+                        </strong>
+
+                      }
+
+                      <span class="photo-file-name">
+                        {{ photo.fileName }}
+                      </span>
+
+                    </div>
+
+                  </div>
+
+
+                  <div class="photo-meta">
+
+                    <span>
+                      Yükleyen:
+                      {{ photo.uploadedByName || '-' }}
+                    </span>
+
+                    <span>
+                      {{
+                        photo.uploadedAt
+                          | date:'dd.MM.yyyy HH:mm'
+                      }}
+                    </span>
+
+                  </div>
+
+                </div>
+
+              }
+
+            </div>
+
+          }
+
+        </section>
+
+
+        <!-- =========================
+             AÇIKLAMA
+        ========================== -->
+
+        <section class="detail-card">
+
+          <h2>
+            Açıklama ve Kaynakça
+          </h2>
+
+          <div class="long-field">
+
+            <span>
+              Açıklama
+            </span>
+
+            <p>
+              {{ artifact.description || '-' }}
+            </p>
+
+          </div>
+
+
+          <div class="long-field">
+
+            <span>
+              Kaynakça
+            </span>
+
+            <p>
+              {{ artifact.bibliography || '-' }}
+            </p>
+
+          </div>
+
+        </section>
+
+
+        <!-- =========================
+             KAYIT BİLGİLERİ
+        ========================== -->
+
+        <section class="detail-card audit-card">
+
+          <h2>
+            Kayıt Bilgileri
+          </h2>
+
+          <div class="field-grid">
+
+            <div class="field">
+
+              <span>
+                Oluşturan
+              </span>
+
+              <strong>
+                {{ artifact.createdByName || '-' }}
+              </strong>
+
+            </div>
+
+
+            <div class="field">
+
+              <span>
+                Oluşturulma Tarihi
+              </span>
+
+              <strong>
+                {{ artifact.createdAt || '-' }}
+              </strong>
+
+            </div>
+
+
+            <div class="field">
+
+              <span>
+                Son Düzenleyen
+              </span>
+
+              <strong>
+                {{ artifact.updatedByName || '-' }}
+              </strong>
+
+            </div>
+
+
+            <div class="field">
+
+              <span>
+                Son Düzenleme
+              </span>
+
+              <strong>
+                {{ artifact.updatedAt || '-' }}
+              </strong>
+
+            </div>
+
+          </div>
+
+        </section>
+
+      }
+
+    </div>
+
+  </main>
+
+</div>

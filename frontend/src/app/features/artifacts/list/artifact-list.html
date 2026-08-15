@@ -1,0 +1,418 @@
+<div class="list-page">
+
+  <main class="list-content app-container">
+
+    <section class="page-header">
+
+      <div>
+
+        <span class="page-label">
+          ENVANTER
+        </span>
+
+        <h1>
+          Buluntular
+        </h1>
+
+        <p>
+          Sistemde kayıtlı buluntuları görüntüleyebilirsiniz.
+        </p>
+
+      </div>
+
+
+      @if (activeTab() === 'active') {
+
+        <div class="header-actions">
+
+          @if (canExport()) {
+
+            <button
+              type="button"
+              class="export-button"
+              [disabled]="exportingExcel()"
+              (click)="downloadExcel()"
+            >
+              {{
+                exportingExcel()
+                  ? 'Excel Hazırlanıyor...'
+                  : 'Excel İndir'
+              }}
+            </button>
+
+          }
+
+
+          <button
+            type="button"
+            class="search-button"
+            (click)="advancedSearch()"
+          >
+            Gelişmiş Arama
+          </button>
+
+        </div>
+
+      }
+
+    </section>
+
+
+    <!-- =========================
+         SEKME ALANI
+    ========================== -->
+
+    <div class="tabs">
+
+      <button
+        type="button"
+        class="tab-button"
+        [class.active]="activeTab() === 'active'"
+        (click)="showActiveArtifacts()"
+      >
+        Buluntular
+      </button>
+
+
+      @if (isAdmin()) {
+
+        <button
+          type="button"
+          class="tab-button"
+          [class.active]="activeTab() === 'deleted'"
+          (click)="showDeletedArtifacts()"
+        >
+          Silinmiş Buluntular
+        </button>
+
+      }
+
+    </div>
+
+
+    <!-- =========================
+         YÜKLENİYOR
+    ========================== -->
+
+    @if (loading()) {
+
+      <div class="state-box">
+
+        {{
+          activeTab() === 'active'
+            ? 'Buluntular yükleniyor...'
+            : 'Silinmiş buluntular yükleniyor...'
+        }}
+
+      </div>
+
+    }
+
+
+    <!-- =========================
+         HATA
+    ========================== -->
+
+    @else if (errorMessage()) {
+
+      <div class="state-box error">
+        {{ errorMessage() }}
+      </div>
+
+    }
+
+
+    <!-- =========================
+         AKTİF BULUNTULAR
+    ========================== -->
+
+    @else if (activeTab() === 'active') {
+
+      @if (artifacts().length === 0) {
+
+        <div class="state-box">
+
+          <strong>
+            Henüz buluntu bulunmuyor.
+          </strong>
+
+          <p>
+            Sisteme eklenen buluntular burada görüntülenecektir.
+          </p>
+
+        </div>
+
+      } @else {
+
+        <section class="artifact-card">
+
+          <div class="list-summary">
+
+            <strong>
+              {{ artifacts().length }} Buluntu
+            </strong>
+
+          </div>
+
+
+          <div class="table-wrapper">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    Buluntu Kodu
+                  </th>
+
+                  <th>
+                    Tür
+                  </th>
+
+                  <th>
+                    Buluntu Yeri
+                  </th>
+
+                  <th>
+                    Dönem
+                  </th>
+
+                  <th>
+                    Görünürlük
+                  </th>
+
+                  <th></th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+
+                @for (
+                  artifact of artifacts();
+                  track artifact.id
+                ) {
+
+                  <tr
+                    class="artifact-row"
+                    (click)="openArtifact(artifact)"
+                  >
+
+                    <td class="artifact-code">
+                      {{ artifact.artifactCode }}
+                    </td>
+
+
+                    <td>
+                      {{ artifact.type || '—' }}
+                    </td>
+
+
+                    <td>
+                      {{ artifact.findLocation || '—' }}
+                    </td>
+
+
+                    <td>
+                      {{ artifact.period || '—' }}
+                    </td>
+
+
+                    <td>
+
+                      <span
+                        class="visibility-badge"
+                        [class.public]="
+                          artifact.visibility === 'PUBLIC'
+                        "
+                      >
+                        {{
+                          artifact.visibility === 'PUBLIC'
+                            ? 'PUBLIC'
+                            : 'EKİBE ÖZEL'
+                        }}
+                      </span>
+
+                    </td>
+
+
+                    <td class="open-cell">
+                      →
+                    </td>
+
+                  </tr>
+
+                }
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </section>
+
+      }
+
+    }
+
+
+    <!-- =========================
+         SİLİNMİŞ BULUNTULAR
+    ========================== -->
+
+    @else {
+
+      @if (deletedArtifacts().length === 0) {
+
+        <div class="state-box">
+
+          <strong>
+            Silinmiş buluntu bulunmuyor.
+          </strong>
+
+          <p>
+            Silinen buluntular burada görüntülenecektir.
+          </p>
+
+        </div>
+
+      } @else {
+
+        <section class="artifact-card">
+
+          <div class="list-summary deleted-summary">
+
+            <strong>
+              {{ deletedArtifacts().length }} Silinmiş Buluntu
+            </strong>
+
+          </div>
+
+
+          <div class="table-wrapper">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    Buluntu Kodu
+                  </th>
+
+                  <th>
+                    Tür
+                  </th>
+
+                  <th>
+                    Buluntu Yeri
+                  </th>
+
+                  <th>
+                    Dönem
+                  </th>
+
+                  <th>
+                    Görünürlük
+                  </th>
+
+                  <th>
+                    İşlem
+                  </th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+
+                @for (
+                  artifact of deletedArtifacts();
+                  track artifact.id
+                ) {
+
+                  <tr class="deleted-row">
+
+                    <td class="artifact-code">
+                      {{ artifact.artifactCode }}
+                    </td>
+
+
+                    <td>
+                      {{ artifact.type || '—' }}
+                    </td>
+
+
+                    <td>
+                      {{ artifact.findLocation || '—' }}
+                    </td>
+
+
+                    <td>
+                      {{ artifact.period || '—' }}
+                    </td>
+
+
+                    <td>
+
+                      <span
+                        class="visibility-badge"
+                        [class.public]="
+                          artifact.visibility === 'PUBLIC'
+                        "
+                      >
+                        {{
+                          artifact.visibility === 'PUBLIC'
+                            ? 'PUBLIC'
+                            : 'EKİBE ÖZEL'
+                        }}
+                      </span>
+
+                    </td>
+
+
+                    <td>
+
+                      <button
+                        type="button"
+                        class="restore-button"
+                        (click)="restoreArtifact(artifact, $event)"
+                        [disabled]="
+                          restoringId() === artifact.id
+                        "
+                      >
+                        {{
+                          restoringId() === artifact.id
+                            ? 'GERİ YÜKLENİYOR...'
+                            : 'GERİ YÜKLE'
+                        }}
+                      </button>
+
+                    </td>
+
+                  </tr>
+
+                }
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </section>
+
+      }
+
+    }
+
+  </main>
+
+</div>

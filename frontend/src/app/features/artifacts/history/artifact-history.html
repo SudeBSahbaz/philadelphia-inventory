@@ -1,0 +1,294 @@
+<div class="history-page">
+
+  <main class="history-content app-container">
+
+    <div class="history-inner">
+
+      <section class="history-header">
+
+        <div>
+
+          <span class="page-label">
+            KAYIT GEÇMİŞİ
+          </span>
+
+          <h1>
+            Değişiklik Geçmişi
+          </h1>
+
+          <p>
+            Bu buluntu üzerinde yapılan işlemleri ve
+            alan değişikliklerini görüntüleyebilirsiniz.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- YÜKLENİYOR -->
+
+      @if (loading()) {
+
+        <div class="state-box">
+          Değişiklik geçmişi yükleniyor...
+        </div>
+
+      }
+
+
+      <!-- HATA -->
+
+      @else if (errorMessage()) {
+
+        <div class="state-box error">
+
+          <p>
+            {{ errorMessage() }}
+          </p>
+
+          <button
+            type="button"
+            (click)="goBack()"
+          >
+            Buluntuya Dön
+          </button>
+
+        </div>
+
+      }
+
+
+      <!-- GEÇMİŞ YOK -->
+
+      @else if (history().length === 0) {
+
+        <div class="state-box">
+
+          <strong>
+            Henüz değişiklik geçmişi bulunmuyor.
+          </strong>
+
+          <p>
+            Bu buluntu üzerinde kayıtlı bir işlem bulunamadı.
+          </p>
+
+        </div>
+
+      }
+
+
+      <!-- GEÇMİŞ -->
+
+      @else {
+
+        <div class="timeline">
+
+          @for (
+            item of history();
+            track item.id
+          ) {
+
+            <article class="history-card">
+
+              <!-- SOL TARAF / TIMELINE -->
+
+              <div class="timeline-marker">
+
+                <div
+                  class="timeline-dot"
+                  [class.created]="item.changeType === 'CREATED'"
+                  [class.updated]="item.changeType === 'UPDATED'"
+                  [class.deleted]="item.changeType === 'DELETED'"
+                  [class.restored]="item.changeType === 'RESTORED'"
+                >
+                </div>
+
+              </div>
+
+
+              <!-- İÇERİK -->
+
+              <div class="history-card-content">
+
+                <!-- ÜST BİLGİ -->
+
+                <div class="history-card-header">
+
+                  <div>
+
+                    <span
+                      class="change-type"
+                      [class.created]="item.changeType === 'CREATED'"
+                      [class.updated]="item.changeType === 'UPDATED'"
+                      [class.deleted]="item.changeType === 'DELETED'"
+                      [class.restored]="item.changeType === 'RESTORED'"
+                    >
+
+                      @switch (item.changeType) {
+
+                        @case ('CREATED') {
+                          OLUŞTURULDU
+                        }
+
+                        @case ('UPDATED') {
+                          GÜNCELLENDİ
+                        }
+
+                        @case ('DELETED') {
+                          SİLİNDİ
+                        }
+
+                        @case ('RESTORED') {
+                          GERİ YÜKLENDİ
+                        }
+
+                        @case ('PHOTO_ADDED') {
+                          FOTOĞRAF EKLENDİ
+                        }
+
+                        @case ('PHOTO_REMOVED') {
+                          FOTOĞRAF SİLİNDİ
+                        }
+
+                        @default {
+                          {{ item.changeType }}
+                        }
+
+                      }
+
+                    </span>
+
+
+                    <h2>
+                      {{
+                        item.changedByName ||
+                        'Bilinmeyen Kullanıcı'
+                      }}
+                    </h2>
+
+                  </div>
+
+
+                  <time>
+                    {{
+                      item.changedAt
+                        | date:'dd.MM.yyyy HH:mm'
+                    }}
+                  </time>
+
+                </div>
+
+
+                <!-- ALAN DEĞİŞİKLİKLERİ -->
+
+                @if (item.fieldChanges.length > 0) {
+
+                  <div class="field-changes">
+
+                    @for (
+                      change of item.fieldChanges;
+                      track $index
+                    ) {
+
+                      <div class="field-change">
+
+                        <div class="field-name">
+                          {{ change.fieldName }}
+                        </div>
+
+
+                        <div class="value-change">
+
+                          <div class="old-value">
+
+                            <span class="value-label">
+                              Eski Değer
+                            </span>
+
+                            <span class="value">
+                              {{
+                                change.oldValue ||
+                                '—'
+                              }}
+                            </span>
+
+                          </div>
+
+
+                          <div class="arrow">
+                            →
+                          </div>
+
+
+                          <div class="new-value">
+
+                            <span class="value-label">
+                              Yeni Değer
+                            </span>
+
+                            <span class="value">
+                              {{
+                                change.newValue ||
+                                '—'
+                              }}
+                            </span>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                    }
+
+                  </div>
+
+                }
+
+
+                <!-- ALAN DEĞİŞİKLİĞİ OLMAYAN İŞLEMLER -->
+
+                @else {
+
+                  <div class="operation-description">
+
+                    @switch (item.changeType) {
+
+                      @case ('CREATED') {
+                        Buluntu kaydı oluşturuldu.
+                      }
+
+                      @case ('DELETED') {
+                        Buluntu silindi.
+                      }
+
+                      @case ('RESTORED') {
+                        Silinen buluntu geri yüklendi.
+                      }
+
+                      @default {
+                        Bu işlem için alan değişikliği bulunmuyor.
+                      }
+
+                    }
+
+                  </div>
+
+                }
+
+              </div>
+
+            </article>
+
+          }
+
+        </div>
+
+      }
+
+    </div>
+
+  </main>
+
+</div>

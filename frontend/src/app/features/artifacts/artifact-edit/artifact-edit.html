@@ -1,0 +1,1098 @@
+<div class="artifact-edit-page">
+
+  <main class="artifact-edit-content app-container">
+
+    <div class="form-container">
+
+      <!-- BAŞLIK -->
+
+      <div class="form-header">
+
+        <p
+          class="breadcrumb"
+          (click)="cancel()"
+        >
+          ← Geri
+        </p>
+
+        <h1>
+          Buluntu Düzenle
+        </h1>
+
+        @if (formData.artifactCode) {
+
+          <p class="artifact-code-info">
+            {{ formData.artifactCode }}
+          </p>
+
+        }
+
+      </div>
+
+
+      <!-- YÜKLENİYOR -->
+
+      @if (loading()) {
+
+        <div class="state-box">
+          Buluntu bilgileri yükleniyor...
+        </div>
+
+      } @else if (errorMessage() && !artifactId) {
+
+        <div class="error-message">
+          {{ errorMessage() }}
+        </div>
+
+      } @else {
+
+        @if (errorMessage()) {
+
+          <div class="error-message">
+            {{ errorMessage() }}
+          </div>
+
+        }
+
+
+        <form (ngSubmit)="saveArtifact()">
+
+
+          <!-- =========================
+               TEMEL BİLGİLER
+          ========================== -->
+
+          <section class="form-section">
+
+            <h2>
+              Temel Bilgiler
+            </h2>
+
+            <div class="form-grid">
+
+              <div class="form-field">
+
+                <label for="artifactCode">
+                  Buluntu Kodu *
+                </label>
+
+                <input
+                  id="artifactCode"
+                  name="artifactCode"
+                  type="text"
+                  [(ngModel)]="formData.artifactCode"
+                  required
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="type">
+                  Tür
+                </label>
+
+                <input
+                  id="type"
+                  name="type"
+                  type="text"
+                  [(ngModel)]="formData.type"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="formNo">
+                  Form No
+                </label>
+
+                <input
+                  id="formNo"
+                  name="formNo"
+                  type="text"
+                  [(ngModel)]="formData.formNo"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="inventoryNo">
+                  Envanter No
+                </label>
+
+                <input
+                  id="inventoryNo"
+                  name="inventoryNo"
+                  type="text"
+                  [(ngModel)]="formData.inventoryNo"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="studyNo">
+                  Etüt No
+                </label>
+
+                <input
+                  id="studyNo"
+                  name="studyNo"
+                  type="text"
+                  [(ngModel)]="formData.studyNo"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="bagNo">
+                  Torba No
+                </label>
+
+                <input
+                  id="bagNo"
+                  name="bagNo"
+                  type="text"
+                  [(ngModel)]="formData.bagNo"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="boxNo">
+                  Kutu No
+                </label>
+
+                <input
+                  id="boxNo"
+                  name="boxNo"
+                  type="text"
+                  [(ngModel)]="formData.boxNo"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="box">
+                  Kasa
+                </label>
+
+                <input
+                  id="box"
+                  name="box"
+                  type="text"
+                  [(ngModel)]="formData.box"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="depth">
+                  Derinlik
+                </label>
+
+                <input
+                  id="depth"
+                  name="depth"
+                  type="text"
+                  [(ngModel)]="formData.depth"
+                />
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- =========================
+               BULUNTU BİLGİLERİ
+          ========================== -->
+
+          <section class="form-section">
+
+            <h2>
+              Buluntu Bilgileri
+            </h2>
+
+            <div class="form-grid">
+
+              <div class="form-field">
+
+                <label for="findLocation">
+                  Buluntu Yeri
+                </label>
+
+                <input
+                  id="findLocation"
+                  name="findLocation"
+                  type="text"
+                  [(ngModel)]="formData.findLocation"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="locality">
+                  Mevki
+                </label>
+
+                <input
+                  id="locality"
+                  name="locality"
+                  type="text"
+                  [(ngModel)]="formData.locality"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="sector">
+                  Sektör
+                </label>
+
+                <input
+                  id="sector"
+                  name="sector"
+                  type="text"
+                  [(ngModel)]="formData.sector"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="findDate">
+                  Buluntu Tarihi
+                </label>
+
+                <input
+                  id="findDate"
+                  name="findDate"
+                  type="date"
+                  [(ngModel)]="formData.findDate"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="findYear">
+                  Buluntu Yılı
+                </label>
+
+                <input
+                  id="findYear"
+                  name="findYear"
+                  type="number"
+                  [(ngModel)]="formData.findYear"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="area">
+                  Alan
+                </label>
+
+                <input
+                  id="area"
+                  name="area"
+                  type="text"
+                  [(ngModel)]="formData.area"
+                />
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- =========================
+               TİPOLOJİ
+          ========================== -->
+
+          <section class="form-section">
+
+            <h2>
+              Tipoloji ve Teknik Bilgiler
+            </h2>
+
+            <div class="form-grid">
+
+              <div class="form-field">
+
+                <label for="form">
+                  Form
+                </label>
+
+                <input
+                  id="form"
+                  name="form"
+                  [(ngModel)]="formData.form"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="decorationType">
+                  Bezeme Türü
+                </label>
+
+                <input
+                  id="decorationType"
+                  name="decorationType"
+                  [(ngModel)]="formData.decorationType"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="pasteStructure">
+                  Hamur Yapısı
+                </label>
+
+                <input
+                  id="pasteStructure"
+                  name="pasteStructure"
+                  [(ngModel)]="formData.pasteStructure"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="firing">
+                  Pişme
+                </label>
+
+                <input
+                  id="firing"
+                  name="firing"
+                  [(ngModel)]="formData.firing"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="technique">
+                  Teknik
+                </label>
+
+                <input
+                  id="technique"
+                  name="technique"
+                  [(ngModel)]="formData.technique"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="temper">
+                  Katkı
+                </label>
+
+                <input
+                  id="temper"
+                  name="temper"
+                  [(ngModel)]="formData.temper"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="temperAmount">
+                  Katkı Miktarı
+                </label>
+
+                <input
+                  id="temperAmount"
+                  name="temperAmount"
+                  [(ngModel)]="formData.temperAmount"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="slipStructure">
+                  Astar Yapısı
+                </label>
+
+                <input
+                  id="slipStructure"
+                  name="slipStructure"
+                  [(ngModel)]="formData.slipStructure"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="angle">
+                  Açı
+                </label>
+
+                <input
+                  id="angle"
+                  name="angle"
+                  [(ngModel)]="formData.angle"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="period">
+                  Dönem
+                </label>
+
+                <input
+                  id="period"
+                  name="period"
+                  [(ngModel)]="formData.period"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="kind">
+                  Cins
+                </label>
+
+                <input
+                  id="kind"
+                  name="kind"
+                  [(ngModel)]="formData.kind"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="munsell">
+                  Munsell
+                </label>
+
+                <input
+                  id="munsell"
+                  name="munsell"
+                  [(ngModel)]="formData.munsell"
+                />
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- =========================
+               ÖLÇÜLER
+          ========================== -->
+
+          <section class="form-section">
+
+            <h2>
+              Ölçüler
+            </h2>
+
+            <div class="form-grid">
+
+              <div class="form-field">
+
+                <label for="diameter">
+                  Çap
+                </label>
+
+                <input
+                  id="diameter"
+                  name="diameter"
+                  [(ngModel)]="formData.diameter"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="weight">
+                  Ağırlık
+                </label>
+
+                <input
+                  id="weight"
+                  name="weight"
+                  [(ngModel)]="formData.weight"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="length">
+                  Uzunluk
+                </label>
+
+                <input
+                  id="length"
+                  name="length"
+                  [(ngModel)]="formData.length"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="width">
+                  Genişlik
+                </label>
+
+                <input
+                  id="width"
+                  name="width"
+                  [(ngModel)]="formData.width"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="thickness">
+                  Kalınlık
+                </label>
+
+                <input
+                  id="thickness"
+                  name="thickness"
+                  [(ngModel)]="formData.thickness"
+                />
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- =========================
+               DİĞER BİLGİLER
+          ========================== -->
+
+          <section class="form-section">
+
+            <h2>
+              Diğer Bilgiler
+            </h2>
+
+            <div class="form-grid">
+
+              <div class="form-field">
+
+                <label for="drawingNo">
+                  Çizim No
+                </label>
+
+                <input
+                  id="drawingNo"
+                  name="drawingNo"
+                  [(ngModel)]="formData.drawingNo"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="preservedPart">
+                  Kor. Kısım
+                </label>
+
+                <input
+                  id="preservedPart"
+                  name="preservedPart"
+                  [(ngModel)]="formData.preservedPart"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="material">
+                  Malzeme
+                </label>
+
+                <input
+                  id="material"
+                  name="material"
+                  [(ngModel)]="formData.material"
+                />
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label for="productionPlace">
+                  Üretim Yeri
+                </label>
+
+                <input
+                  id="productionPlace"
+                  name="productionPlace"
+                  [(ngModel)]="formData.productionPlace"
+                />
+
+              </div>
+
+
+              <div class="form-field full-width">
+
+                <label for="description">
+                  Açıklama
+                </label>
+
+                <textarea
+                  id="description"
+                  name="description"
+                  rows="4"
+                  [(ngModel)]="formData.description"
+                ></textarea>
+
+              </div>
+
+
+              <div class="form-field full-width">
+
+                <label for="bibliography">
+                  Kaynakça
+                </label>
+
+                <textarea
+                  id="bibliography"
+                  name="bibliography"
+                  rows="3"
+                  [(ngModel)]="formData.bibliography"
+                ></textarea>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- =========================
+               GÖRÜNÜRLÜK
+          ========================== -->
+
+          <section class="form-section">
+
+            <h2>
+              Görünürlük
+            </h2>
+
+            <div class="form-field">
+
+              <label for="visibility">
+                Buluntu Görünürlüğü *
+              </label>
+
+              <select
+                id="visibility"
+                name="visibility"
+                [(ngModel)]="formData.visibility"
+              >
+
+                <option value="PRIVATE_FOR_CREW">
+                  Sadece Kazı Ekibi
+                </option>
+
+                <option value="PUBLIC">
+                  Herkese Açık
+                </option>
+
+              </select>
+
+            </div>
+
+          </section>
+
+
+          <!-- =========================
+               FOTOĞRAFLAR
+          ========================== -->
+
+          <section class="form-section photo-management-section">
+
+            <div class="photo-section-title">
+
+              <div>
+
+                <h2>
+                  Fotoğraflar
+                </h2>
+
+                <p>
+                  Bu buluntuya ait mevcut fotoğrafları görüntüleyebilir
+                  veya yeni fotoğraf yükleyebilirsiniz.
+                </p>
+
+              </div>
+
+              <span class="photo-count">
+                {{ photos().length }} Fotoğraf
+              </span>
+
+            </div>
+
+
+            <!-- FOTOĞRAF MESAJLARI -->
+
+            @if (photoErrorMessage()) {
+
+              <div class="photo-message error">
+                {{ photoErrorMessage() }}
+              </div>
+
+            }
+
+
+            @if (photoSuccessMessage()) {
+
+              <div class="photo-message success">
+                {{ photoSuccessMessage() }}
+              </div>
+
+            }
+
+
+            <!-- YENİ FOTOĞRAF YÜKLE -->
+
+            <div class="photo-upload-box">
+
+              <h3>
+                Yeni Fotoğraf Ekle
+              </h3>
+
+              <div class="photo-upload-grid">
+
+                <div class="form-field">
+
+                  <label for="photoNo">
+                    Fotoğraf No
+                  </label>
+
+                  <input
+                    id="photoNo"
+                    name="photoNo"
+                    type="text"
+                    [(ngModel)]="photoNo"
+                    placeholder="Örn: PHOTO-002"
+                  />
+
+                </div>
+
+
+                <div class="form-field">
+
+                  <label for="photoFile">
+                    Fotoğraf Dosyası
+                  </label>
+
+                  <input
+                    #photoFileInput
+                    id="photoFile"
+                    type="file"
+                    accept="image/*"
+                    (change)="onPhotoSelected($event)"
+                  />
+
+                </div>
+
+              </div>
+
+
+              @if (selectedPhotoFileName) {
+
+                <div class="selected-file">
+
+                  <span>
+                    Seçilen dosya:
+                  </span>
+
+                  <strong>
+                    {{ selectedPhotoFileName }}
+                  </strong>
+
+                </div>
+
+              }
+
+
+              <div class="photo-upload-actions">
+
+                <button
+                  type="button"
+                  class="upload-photo-button"
+                  [disabled]="
+                    uploadingPhoto() ||
+                    !selectedPhotoFile
+                  "
+                  (click)="uploadPhoto(photoFileInput)"
+                >
+                  {{
+                    uploadingPhoto()
+                      ? 'YÜKLENİYOR...'
+                      : 'FOTOĞRAF YÜKLE'
+                  }}
+                </button>
+
+              </div>
+
+            </div>
+
+
+            <!-- MEVCUT FOTOĞRAFLAR -->
+
+            <div class="existing-photos">
+
+              <h3>
+                Mevcut Fotoğraflar
+              </h3>
+
+
+              @if (photosLoading()) {
+
+                <div class="photo-empty-state">
+                  Fotoğraflar yükleniyor...
+                </div>
+
+              } @else if (photos().length === 0) {
+
+                <div class="photo-empty-state">
+
+                  <strong>
+                    Henüz fotoğraf bulunmuyor.
+                  </strong>
+
+                  <p>
+                    Yukarıdaki alandan bu buluntuya
+                    fotoğraf ekleyebilirsiniz.
+                  </p>
+
+                </div>
+
+              } @else {
+
+                <div class="photo-grid">
+
+                  @for (
+                    photo of photos();
+                    track photo.id
+                  ) {
+
+                    <div class="photo-card">
+
+                      <button
+                        type="button"
+                        class="photo-preview"
+                        (click)="openPhoto(photo)"
+                      >
+
+                        @if (
+                          photoUrls()[photo.id];
+                          as photoUrl
+                        ) {
+
+                          <img
+                            [src]="photoUrl"
+                            [alt]="
+                              photo.photoNo ||
+                              photo.fileName
+                            "
+                            class="photo-image"
+                          />
+
+                        } @else {
+
+                          <div class="photo-placeholder">
+
+                            <span class="photo-placeholder-icon">
+                              🖼
+                            </span>
+
+                            <span>
+                              Fotoğraf yükleniyor...
+                            </span>
+
+                          </div>
+
+                        }
+
+                      </button>
+
+
+                      <div class="photo-info">
+
+                        <div class="photo-details">
+
+                          @if (photo.photoNo) {
+
+                            <span class="photo-number-label">
+                              FOTOĞRAF NO
+                            </span>
+
+                            <strong>
+                              {{ photo.photoNo }}
+                            </strong>
+
+                          }
+
+                          <span class="photo-file-name">
+                            {{ photo.fileName }}
+                          </span>
+
+                        </div>
+
+
+                        @if (isAdmin()) {
+
+                          <button
+                            type="button"
+                            class="delete-photo-button"
+                            [disabled]="
+                              deletingPhotoId() === photo.id
+                            "
+                            (click)="deletePhoto(photo)"
+                          >
+                            {{
+                              deletingPhotoId() === photo.id
+                                ? 'Siliniyor...'
+                                : 'Sil'
+                            }}
+                          </button>
+
+                        }
+
+                      </div>
+
+
+                      <div class="photo-meta">
+
+                        <span>
+                          Yükleyen:
+                          {{ photo.uploadedByName || '-' }}
+                        </span>
+
+                        <span>
+                          {{
+                            photo.uploadedAt
+                              | date:'dd.MM.yyyy HH:mm'
+                          }}
+                        </span>
+
+                      </div>
+
+                    </div>
+
+                  }
+
+                </div>
+
+              }
+
+            </div>
+
+          </section>
+
+
+          <!-- =========================
+               BUTONLAR
+          ========================== -->
+
+          <div class="form-actions">
+
+            <button
+              type="button"
+              class="cancel-button"
+              (click)="cancel()"
+              [disabled]="
+                saving() ||
+                uploadingPhoto()
+              "
+            >
+              İPTAL
+            </button>
+
+
+            <button
+              type="submit"
+              class="save-button"
+              [disabled]="
+                saving() ||
+                uploadingPhoto()
+              "
+            >
+              {{
+                saving()
+                  ? 'KAYDEDİLİYOR...'
+                  : 'DEĞİŞİKLİKLERİ KAYDET'
+              }}
+            </button>
+
+          </div>
+
+        </form>
+
+      }
+
+    </div>
+
+  </main>
+
+</div>

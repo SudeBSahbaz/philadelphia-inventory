@@ -1,0 +1,159 @@
+<header class="topbar">
+
+  <!-- LOGO / MARKA -->
+
+  <div
+    class="brand"
+    routerLink="/home"
+  >
+
+    <span class="brand-icon">
+      🏛
+    </span>
+
+    <span class="brand-text">
+      Philadelphia Inventory
+    </span>
+
+  </div>
+
+
+  <!-- NAVIGATION -->
+
+  <nav class="navigation">
+
+    <a
+      class="nav-item"
+      routerLink="/home"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{
+        exact: true
+      }"
+    >
+      Ana Sayfa
+    </a>
+
+
+    <a
+      class="nav-item"
+      routerLink="/artifacts"
+      routerLinkActive="active"
+    >
+      Buluntular
+    </a>
+
+
+    @if (isAdmin()) {
+
+      <a
+        class="nav-item"
+        routerLink="/users"
+        routerLinkActive="active"
+      >
+        Kullanıcılar
+      </a>
+
+    }
+
+
+    <a
+      class="nav-item"
+      routerLink="/profile"
+      routerLinkActive="active"
+    >
+      Profilim
+    </a>
+
+  </nav>
+
+
+  <!-- KULLANICI -->
+
+  <div class="user-area">
+
+    <div class="avatar">
+
+      {{
+        authService
+          .currentUser()
+          ?.firstName
+          ?.charAt(0) || 'K'
+      }}
+
+    </div>
+
+
+    <div class="user-info">
+
+      <span class="user-name">
+
+        {{
+          authService
+            .currentUser()
+            ?.firstName
+        }}
+
+        {{
+          authService
+            .currentUser()
+            ?.lastName
+        }}
+
+      </span>
+
+
+      <span class="user-role">
+
+        {{
+          authService
+            .currentUser()
+            ?.role
+        }}
+
+      </span>
+
+    </div>
+
+
+   <button
+  type="button"
+  class="logout-button"
+  (click)="logout()"
+  title="Çıkış Yap"
+  aria-label="Çıkış Yap"
+>
+  <svg
+    class="logout-icon"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <path
+      d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+
+    <path
+      d="M16 17l5-5-5-5"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+
+    <path
+      d="M21 12H9"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+    />
+  </svg>
+</button>
+
+  </div>
+
+</header>
