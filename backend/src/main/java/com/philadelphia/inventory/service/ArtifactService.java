@@ -29,28 +29,56 @@ public class ArtifactService {
         this.changeLogService = changeLogService;
     }
 
+
+    // --------------------------------------------------
+    // AKTİF BULUNTULAR
+    // --------------------------------------------------
+
     public List<Artifact> getAllActiveArtifacts() {
-        return artifactRepository.findAllByDeletedFalse();
+
+        return artifactRepository
+                .findAllByDeletedFalse();
     }
+
+
+    // --------------------------------------------------
+    // SİLİNMİŞ BULUNTULAR
+    // --------------------------------------------------
 
     public List<Artifact> getAllDeletedArtifacts() {
-        return artifactRepository.findAllByDeletedTrue();
+
+        return artifactRepository
+                .findAllByDeletedTrue();
     }
 
+
+    // --------------------------------------------------
+    // PUBLIC BULUNTULAR
+    // --------------------------------------------------
+
     public List<Artifact> getPublicArtifacts() {
-        return artifactRepository.findAllByVisibilityAndDeletedFalse(
-                ArtifactVisibility.PUBLIC
-        );
+
+        return artifactRepository
+                .findAllByVisibilityAndDeletedFalse(
+                        ArtifactVisibility.PUBLIC
+                );
     }
+
+
+    // --------------------------------------------------
+    // BULUNTU KODU İLE GETİR
+    // --------------------------------------------------
 
     public Optional<Artifact> getByArtifactCode(
             String artifactCode
     ) {
+
         return artifactRepository
                 .findByArtifactCodeAndDeletedFalse(
                         artifactCode
                 );
     }
+
 
     // --------------------------------------------------
     // GELİŞMİŞ ARAMA
@@ -78,18 +106,24 @@ public class ArtifactService {
                     List<Predicate> predicates =
                             new ArrayList<>();
 
+
                     // Silinmiş kayıtlar aramaya dahil edilmez.
+
                     predicates.add(
                             criteriaBuilder.isFalse(
                                     root.get("deleted")
                             )
                     );
 
+
                     if (hasText(artifactCode)) {
+
                         predicates.add(
                                 criteriaBuilder.like(
                                         criteriaBuilder.lower(
-                                                root.get("artifactCode")
+                                                root.get(
+                                                        "artifactCode"
+                                                )
                                         ),
                                         contains(
                                                 artifactCode
@@ -98,22 +132,32 @@ public class ArtifactService {
                         );
                     }
 
+
                     if (hasText(type)) {
+
                         predicates.add(
                                 criteriaBuilder.like(
                                         criteriaBuilder.lower(
-                                                root.get("type")
+                                                root.get(
+                                                        "type"
+                                                )
                                         ),
-                                        contains(type)
+                                        contains(
+                                                type
+                                        )
                                 )
                         );
                     }
 
+
                     if (hasText(findLocation)) {
+
                         predicates.add(
                                 criteriaBuilder.like(
                                         criteriaBuilder.lower(
-                                                root.get("findLocation")
+                                                root.get(
+                                                        "findLocation"
+                                                )
                                         ),
                                         contains(
                                                 findLocation
@@ -122,75 +166,113 @@ public class ArtifactService {
                         );
                     }
 
+
                     if (hasText(locality)) {
+
                         predicates.add(
                                 criteriaBuilder.like(
                                         criteriaBuilder.lower(
-                                                root.get("locality")
+                                                root.get(
+                                                        "locality"
+                                                )
                                         ),
-                                        contains(locality)
+                                        contains(
+                                                locality
+                                        )
                                 )
                         );
                     }
+
 
                     if (hasText(sector)) {
+
                         predicates.add(
                                 criteriaBuilder.like(
                                         criteriaBuilder.lower(
-                                                root.get("sector")
+                                                root.get(
+                                                        "sector"
+                                                )
                                         ),
-                                        contains(sector)
+                                        contains(
+                                                sector
+                                        )
                                 )
                         );
                     }
 
+
                     if (findYear != null) {
+
                         predicates.add(
                                 criteriaBuilder.equal(
-                                        root.get("findYear"),
+                                        root.get(
+                                                "findYear"
+                                        ),
                                         findYear
                                 )
                         );
                     }
 
+
                     if (hasText(period)) {
+
                         predicates.add(
                                 criteriaBuilder.like(
                                         criteriaBuilder.lower(
-                                                root.get("period")
+                                                root.get(
+                                                        "period"
+                                                )
                                         ),
-                                        contains(period)
+                                        contains(
+                                                period
+                                        )
                                 )
                         );
                     }
+
 
                     if (hasText(material)) {
+
                         predicates.add(
                                 criteriaBuilder.like(
                                         criteriaBuilder.lower(
-                                                root.get("material")
+                                                root.get(
+                                                        "material"
+                                                )
                                         ),
-                                        contains(material)
+                                        contains(
+                                                material
+                                        )
                                 )
                         );
                     }
+
 
                     if (hasText(form)) {
+
                         predicates.add(
                                 criteriaBuilder.like(
                                         criteriaBuilder.lower(
-                                                root.get("form")
+                                                root.get(
+                                                        "form"
+                                                )
                                         ),
-                                        contains(form)
+                                        contains(
+                                                form
+                                        )
                                 )
                         );
                     }
 
+
                     if (hasText(decorationType)) {
+
                         predicates.add(
                                 criteriaBuilder.like(
                                         criteriaBuilder.lower(
-                                                root.get("decorationType")
+                                                root.get(
+                                                        "decorationType"
+                                                )
                                         ),
                                         contains(
                                                 decorationType
@@ -199,36 +281,53 @@ public class ArtifactService {
                         );
                     }
 
+
                     if (hasText(technique)) {
+
                         predicates.add(
                                 criteriaBuilder.like(
                                         criteriaBuilder.lower(
-                                                root.get("technique")
+                                                root.get(
+                                                        "technique"
+                                                )
                                         ),
-                                        contains(technique)
+                                        contains(
+                                                technique
+                                        )
                                 )
                         );
                     }
+
 
                     if (hasText(munsell)) {
+
                         predicates.add(
                                 criteriaBuilder.like(
                                         criteriaBuilder.lower(
-                                                root.get("munsell")
+                                                root.get(
+                                                        "munsell"
+                                                )
                                         ),
-                                        contains(munsell)
+                                        contains(
+                                                munsell
+                                        )
                                 )
                         );
                     }
 
+
                     if (visibility != null) {
+
                         predicates.add(
                                 criteriaBuilder.equal(
-                                        root.get("visibility"),
+                                        root.get(
+                                                "visibility"
+                                        ),
                                         visibility
                                 )
                         );
                     }
+
 
                     return criteriaBuilder.and(
                             predicates.toArray(
@@ -237,25 +336,32 @@ public class ArtifactService {
                     );
                 };
 
+
         return artifactRepository.findAll(
                 specification
         );
     }
 
+
     private boolean hasText(
             String value
     ) {
+
         return value != null
                 && !value.isBlank();
     }
 
+
     private String contains(
             String value
     ) {
+
         return "%"
-                + value.trim().toLowerCase()
+                + value.trim()
+                .toLowerCase()
                 + "%";
     }
+
 
     // --------------------------------------------------
     // ID İLE AKTİF BULUNTU GETİR
@@ -266,21 +372,26 @@ public class ArtifactService {
     ) {
 
         Artifact artifact =
-                artifactRepository.findById(id)
+                artifactRepository
+                        .findById(id)
                         .orElseThrow(() ->
                                 new IllegalArgumentException(
-                                        "Artifact not found."
+                                        "Buluntu bulunamadı."
                                 )
                         );
 
+
         if (artifact.isDeleted()) {
+
             throw new IllegalArgumentException(
-                    "Deleted artifact cannot be used."
+                    "Silinmiş bir buluntu bu işlem için kullanılamaz."
             );
         }
 
+
         return artifact;
     }
+
 
     // --------------------------------------------------
     // BULUNTU OLUŞTUR
@@ -291,54 +402,83 @@ public class ArtifactService {
             User createdBy
     ) {
 
-        if (artifact.getArtifactCode() == null
-                || artifact.getArtifactCode()
-                        .isBlank()) {
-
-            throw new IllegalArgumentException(
-                    "Artifact code is required."
-            );
-        }
-
-        if (artifactRepository.existsByArtifactCode(
+        if (
+                artifact.getArtifactCode() == null
+                        ||
                 artifact.getArtifactCode()
-        )) {
+                        .isBlank()
+        ) {
 
             throw new IllegalArgumentException(
-                    "An artifact with this code already exists."
+                    "Buluntu kodu zorunludur."
             );
         }
 
-        if (artifact.getVisibility() == null) {
+
+        if (
+                artifactRepository
+                        .existsByArtifactCode(
+                                artifact.getArtifactCode()
+                        )
+        ) {
 
             throw new IllegalArgumentException(
-                    "Artifact visibility must be selected."
+                    "Bu kodla kayıtlı bir buluntu zaten bulunmaktadır."
             );
         }
 
-        artifact.setCreatedBy(createdBy);
-        artifact.setUpdatedBy(createdBy);
+
+        if (
+                artifact.getVisibility() == null
+        ) {
+
+            throw new IllegalArgumentException(
+                    "Buluntu görünürlüğü seçilmelidir."
+            );
+        }
+
+
+        artifact.setCreatedBy(
+                createdBy
+        );
+
+        artifact.setUpdatedBy(
+                createdBy
+        );
+
 
         LocalDateTime now =
                 LocalDateTime.now();
 
-        artifact.setCreatedAt(now);
-        artifact.setUpdatedAt(now);
 
-        artifact.setDeleted(false);
+        artifact.setCreatedAt(
+                now
+        );
+
+        artifact.setUpdatedAt(
+                now
+        );
+
+        artifact.setDeleted(
+                false
+        );
+
 
         Artifact savedArtifact =
                 artifactRepository.save(
                         artifact
                 );
 
+
         changeLogService.recordCreated(
                 savedArtifact,
                 createdBy
         );
 
+
         return savedArtifact;
     }
+
 
     // --------------------------------------------------
     // BULUNTU GÜNCELLE
@@ -351,46 +491,62 @@ public class ArtifactService {
     ) {
 
         Artifact existingArtifact =
-                artifactRepository.findById(
-                        artifactId
-                )
-                .orElseThrow(() ->
-                        new IllegalArgumentException(
-                                "Artifact not found."
+                artifactRepository
+                        .findById(
+                                artifactId
                         )
-                );
+                        .orElseThrow(() ->
+                                new IllegalArgumentException(
+                                        "Buluntu bulunamadı."
+                                )
+                        );
 
-        if (existingArtifact.isDeleted()) {
+
+        if (
+                existingArtifact.isDeleted()
+        ) {
 
             throw new IllegalArgumentException(
-                    "Deleted artifacts cannot be edited."
+                    "Silinmiş buluntular düzenlenemez."
             );
         }
+
 
         String newArtifactCode =
                 updatedArtifact
                         .getArtifactCode();
 
-        if (newArtifactCode == null
-                || newArtifactCode.isBlank()) {
+
+        if (
+                newArtifactCode == null
+                        ||
+                newArtifactCode.isBlank()
+        ) {
 
             throw new IllegalArgumentException(
-                    "Artifact code is required."
+                    "Buluntu kodu zorunludur."
             );
         }
 
-        if (!existingArtifact
-                .getArtifactCode()
-                .equals(newArtifactCode)
-                && artifactRepository
+
+        if (
+                !existingArtifact
+                        .getArtifactCode()
+                        .equals(
+                                newArtifactCode
+                        )
+                        &&
+                artifactRepository
                         .existsByArtifactCode(
                                 newArtifactCode
-                        )) {
+                        )
+        ) {
 
             throw new IllegalArgumentException(
-                    "An artifact with this code already exists."
+                    "Bu kodla kayıtlı bir buluntu zaten bulunmaktadır."
             );
         }
+
 
         changeLogService.recordUpdated(
                 existingArtifact,
@@ -398,34 +554,50 @@ public class ArtifactService {
                 updatedBy
         );
 
+
         updatedArtifact.setId(
                 existingArtifact.getId()
         );
+
 
         updatedArtifact.setCreatedBy(
                 existingArtifact.getCreatedBy()
         );
 
+
         updatedArtifact.setCreatedAt(
                 existingArtifact.getCreatedAt()
         );
+
 
         updatedArtifact.setUpdatedBy(
                 updatedBy
         );
 
+
         updatedArtifact.setUpdatedAt(
                 LocalDateTime.now()
         );
 
-        updatedArtifact.setDeleted(false);
-        updatedArtifact.setDeletedBy(null);
-        updatedArtifact.setDeletedAt(null);
+
+        updatedArtifact.setDeleted(
+                false
+        );
+
+        updatedArtifact.setDeletedBy(
+                null
+        );
+
+        updatedArtifact.setDeletedAt(
+                null
+        );
+
 
         return artifactRepository.save(
                 updatedArtifact
         );
     }
+
 
     // --------------------------------------------------
     // SOFT DELETE
@@ -437,27 +609,39 @@ public class ArtifactService {
     ) {
 
         Artifact artifact =
-                artifactRepository.findById(
-                        artifactId
-                )
-                .orElseThrow(() ->
-                        new IllegalArgumentException(
-                                "Artifact not found."
+                artifactRepository
+                        .findById(
+                                artifactId
                         )
-                );
+                        .orElseThrow(() ->
+                                new IllegalArgumentException(
+                                        "Buluntu bulunamadı."
+                                )
+                        );
 
-        if (artifact.isDeleted()) {
+
+        if (
+                artifact.isDeleted()
+        ) {
 
             throw new IllegalArgumentException(
-                    "Artifact is already deleted."
+                    "Bu buluntu zaten silinmiş."
             );
         }
 
-        artifact.setDeleted(true);
-        artifact.setDeletedBy(deletedBy);
+
+        artifact.setDeleted(
+                true
+        );
+
+        artifact.setDeletedBy(
+                deletedBy
+        );
+
         artifact.setDeletedAt(
                 LocalDateTime.now()
         );
+
 
         artifact.setUpdatedBy(
                 deletedBy
@@ -467,18 +651,22 @@ public class ArtifactService {
                 LocalDateTime.now()
         );
 
+
         Artifact savedArtifact =
                 artifactRepository.save(
                         artifact
                 );
+
 
         changeLogService.recordDeleted(
                 savedArtifact,
                 deletedBy
         );
 
+
         return savedArtifact;
     }
+
 
     // --------------------------------------------------
     // GERİ YÜKLE
@@ -490,25 +678,39 @@ public class ArtifactService {
     ) {
 
         Artifact artifact =
-                artifactRepository.findById(
-                        artifactId
-                )
-                .orElseThrow(() ->
-                        new IllegalArgumentException(
-                                "Artifact not found."
+                artifactRepository
+                        .findById(
+                                artifactId
                         )
-                );
+                        .orElseThrow(() ->
+                                new IllegalArgumentException(
+                                        "Buluntu bulunamadı."
+                                )
+                        );
 
-        if (!artifact.isDeleted()) {
+
+        if (
+                !artifact.isDeleted()
+        ) {
 
             throw new IllegalArgumentException(
-                    "Artifact is not deleted."
+                    "Bu buluntu silinmiş durumda değil."
             );
         }
 
-        artifact.setDeleted(false);
-        artifact.setDeletedBy(null);
-        artifact.setDeletedAt(null);
+
+        artifact.setDeleted(
+                false
+        );
+
+        artifact.setDeletedBy(
+                null
+        );
+
+        artifact.setDeletedAt(
+                null
+        );
+
 
         artifact.setUpdatedBy(
                 restoredBy
@@ -518,15 +720,18 @@ public class ArtifactService {
                 LocalDateTime.now()
         );
 
+
         Artifact savedArtifact =
                 artifactRepository.save(
                         artifact
                 );
 
+
         changeLogService.recordRestored(
                 savedArtifact,
                 restoredBy
         );
+
 
         return savedArtifact;
     }

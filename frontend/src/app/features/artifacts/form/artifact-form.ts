@@ -2,10 +2,14 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   OnDestroy,
+  OnInit,
   signal
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import { forkJoin } from 'rxjs';
 
 import {
@@ -37,7 +41,7 @@ interface PendingPhoto {
   styleUrl: './artifact-form.scss'
 })
 export class ArtifactForm
-  implements OnDestroy {
+  implements OnInit, OnDestroy {
 
   readonly saving =
     signal(false);
@@ -105,10 +109,30 @@ export class ArtifactForm
 
 
   constructor(
+    private route: ActivatedRoute,
     private artifactService: ArtifactService,
     private artifactPhotoService: ArtifactPhotoService,
     private router: Router
   ) {}
+
+
+  // --------------------------------------------------
+  // INIT
+  // --------------------------------------------------
+
+  ngOnInit(): void {
+
+    const code =
+      this.route.snapshot.queryParamMap
+        .get('code')
+        ?.trim();
+
+    if (code) {
+
+      this.formData.artifactCode =
+        code;
+    }
+  }
 
 
   // --------------------------------------------------
@@ -201,8 +225,6 @@ export class ArtifactForm
     );
 
 
-    // Aynı dosyanın tekrar
-    // seçilebilmesine izin verir.
     input.value = '';
   }
 
@@ -338,9 +360,6 @@ export class ArtifactForm
             this.pendingPhotos();
 
 
-          // FOTOĞRAF YOKSA
-          // DOĞRUDAN DETAYA GİT
-
           if (
             photos.length === 0
           ) {
@@ -355,9 +374,6 @@ export class ArtifactForm
             return;
           }
 
-
-          // FOTOĞRAFLARI
-          // OLUŞAN BULUNTUYA BAĞLA
 
           const uploadRequests =
             photos.map(
@@ -394,16 +410,6 @@ export class ArtifactForm
               error: (error) => {
 
                 this.saving.set(false);
-
-                /*
-                 * Buluntu bu aşamada
-                 * başarıyla oluşturulmuştur.
-                 *
-                 * Bu nedenle tekrar create
-                 * çağrısı yaptırmıyoruz.
-                 * Kullanıcıyı mevcut kayda
-                 * yönlendiriyoruz.
-                 */
 
                 if (error.status === 401) {
 

@@ -1,7 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  signal
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 
 import {
   ArtifactListItemResponse
@@ -21,7 +28,8 @@ import {
   templateUrl: './artifact-search.html',
   styleUrl: './artifact-search.scss'
 })
-export class ArtifactSearch {
+export class ArtifactSearch
+  implements OnInit {
 
   readonly loading =
     signal(false);
@@ -63,9 +71,31 @@ export class ArtifactSearch {
   };
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
     private artifactService: ArtifactService
   ) {}
+
+
+  // --------------------------------------------------
+  // INIT
+  // --------------------------------------------------
+
+  ngOnInit(): void {
+
+    const artifactCode =
+      this.route.snapshot.queryParamMap
+        .get('artifactCode')
+        ?.trim();
+
+    if (artifactCode) {
+
+      this.filters.artifactCode =
+        artifactCode;
+
+      this.search();
+    }
+  }
 
 
   // --------------------------------------------------
