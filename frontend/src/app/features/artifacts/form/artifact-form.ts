@@ -140,6 +140,7 @@ export class ArtifactForm
   // --------------------------------------------------
 
   ngOnDestroy(): void {
+
     this.clearPendingPhotoUrls();
   }
 
@@ -360,11 +361,17 @@ export class ArtifactForm
             this.pendingPhotos();
 
 
+          // FOTOĞRAF YOKSA
+
           if (
             photos.length === 0
           ) {
 
             this.saving.set(false);
+
+            window.alert(
+              'Buluntu başarıyla oluşturuldu.'
+            );
 
             this.router.navigate([
               '/artifacts',
@@ -374,6 +381,8 @@ export class ArtifactForm
             return;
           }
 
+
+          // FOTOĞRAFLARI YÜKLE
 
           const uploadRequests =
             photos.map(
@@ -399,6 +408,10 @@ export class ArtifactForm
                 this.clearPendingPhotoUrls();
 
                 this.pendingPhotos.set([]);
+
+                window.alert(
+                  'Buluntu başarıyla oluşturuldu.'
+                );
 
                 this.router.navigate([
                   '/artifacts',
