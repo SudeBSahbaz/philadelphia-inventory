@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://philadelphia-inventory-backend.onrender.com/api/:path*"
+    }
+  ]
+}
