@@ -577,7 +577,11 @@
               </span>
 
               <strong>
-                {{ artifact.createdAt || '-' }}
+                {{
+                  artifact.createdAt
+                    ? (artifact.createdAt | date:'dd.MM.yyyy HH:mm')
+                    : '-'
+                }}
               </strong>
 
             </div>
@@ -603,7 +607,11 @@
               </span>
 
               <strong>
-                {{ artifact.updatedAt || '-' }}
+                {{
+                  artifact.updatedAt
+                    ? (artifact.updatedAt | date:'dd.MM.yyyy HH:mm')
+                    : '-'
+                }}
               </strong>
 
             </div>
