@@ -115,88 +115,91 @@ export class Home {
 
 
   // --------------------------------------------------
-  // BULUNTU OLUŞTUR
-  // --------------------------------------------------
+// BULUNTU OLUŞTUR
+// --------------------------------------------------
+createArtifact(): void {
 
-  createArtifact(): void {
+  const code =
+    this.artifactCode.trim();
 
-    const code =
-      this.artifactCode.trim();
+  this.searchErrorMessage.set('');
 
-    this.searchErrorMessage.set('');
+  if (!code) {
 
-    if (!code) {
+    this.searchErrorMessage.set(
+      'Lütfen bir buluntu kodu giriniz.'
+    );
 
-      this.searchErrorMessage.set(
-        'Lütfen bir buluntu kodu giriniz.'
-      );
+    return;
+  }
 
-      return;
-    }
+  this.searching.set(true);
 
-    this.searching.set(true);
+  this.artifactService
+    .artifactCodeStatus(code)
+    .subscribe({
 
-    this.artifactService
-      .getArtifactByCode(code)
-      .subscribe({
+      next: (status) => {
 
-        // Kod zaten varsa yeni kayıt oluşturulamaz.
-        next: () => {
+        this.searching.set(false);
 
-          this.searching.set(false);
+        if (status === 'ACTIVE') {
 
           this.searchErrorMessage.set(
             'Bu kodla kayıtlı bir buluntu zaten bulunmaktadır.'
           );
-        },
 
-        error: (error) => {
+          return;
+        }
 
-          this.searching.set(false);
-
-          // Kod bulunamadıysa yeni buluntu oluşturma
-          // formuna kodu da beraber gönder.
-          if (error.status === 404) {
-
-            this.router.navigate(
-              ['/artifacts/new'],
-              {
-                queryParams: {
-                  code
-                }
-              }
-            );
-
-            return;
-          }
-
-          if (error.status === 401) {
-
-            this.searchErrorMessage.set(
-              'Oturumunuz sona ermiş. Lütfen tekrar giriş yapınız.'
-            );
-
-            return;
-          }
-
-          if (error.status === 403) {
-
-            this.searchErrorMessage.set(
-              'Buluntu oluşturma yetkiniz bulunmuyor.'
-            );
-
-            return;
-          }
+        if (status === 'DELETED') {
 
           this.searchErrorMessage.set(
-            error.error?.message ??
-            'Buluntu kontrol edilirken bir hata oluştu.'
+            'Bu buluntu kodu silinmiş buluntular arasında bulunmaktadır. Yeni kayıt oluşturmak yerine mevcut kaydı geri yükleyebilirsiniz.'
           );
+
+          return;
         }
-      });
-  }
 
+        this.router.navigate(
+          ['/artifacts/new'],
+          {
+            queryParams: {
+              code
+            }
+          }
+        );
+      },
 
+      error: (error) => {
+
+        this.searching.set(false);
+
+        if (error.status === 401) {
+
+          this.searchErrorMessage.set(
+            'Oturumunuz sona ermiş. Lütfen tekrar giriş yapınız.'
+          );
+
+          return;
+        }
+
+        if (error.status === 403) {
+
+          this.searchErrorMessage.set(
+            'Buluntu oluşturma yetkiniz bulunmuyor.'
+          );
+
+          return;
+        }
+
+        this.searchErrorMessage.set(
+          error.error?.message ??
+          'Buluntu kodu kontrol edilirken bir hata oluştu.'
+        );
+      }
+    });
+}
   // --------------------------------------------------
   // GELİŞMİŞ ARAMA
   // --------------------------------------------------

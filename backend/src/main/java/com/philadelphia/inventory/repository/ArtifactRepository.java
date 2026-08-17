@@ -18,6 +18,11 @@ public interface ArtifactRepository
             String artifactCode
     );
 
+    // Aktif veya silinmiş herhangi bir kaydı koduyla getir
+    Optional<Artifact> findByArtifactCode(
+            String artifactCode
+    );
+
     // Buluntu kodu aktif veya silinmiş herhangi bir kayıtta var mı?
     boolean existsByArtifactCode(
             String artifactCode

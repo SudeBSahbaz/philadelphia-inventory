@@ -75,8 +75,31 @@ export class ArtifactService {
       }
     );
   }
+// --------------------------------------------------
+// BULUNTU KODU MEVCUT MU?
+// AKTİF + SİLİNMİŞ TÜM KAYITLAR
+// --------------------------------------------------
+artifactCodeStatus(
+  artifactCode: string
+): Observable<
+  'ACTIVE' | 'DELETED' | 'AVAILABLE'
+> {
 
+  const encodedCode =
+    encodeURIComponent(
+      artifactCode
+    );
 
+  return this.http.get<
+    'ACTIVE' | 'DELETED' | 'AVAILABLE'
+  >(
+    `${this.apiUrl}/code/${encodedCode}/status`,
+    {
+      withCredentials: true,
+      responseType: 'text' as 'json'
+    }
+  );
+}
   // --------------------------------------------------
   // GELİŞMİŞ ARAMA
   // --------------------------------------------------

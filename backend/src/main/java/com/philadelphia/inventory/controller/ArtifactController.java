@@ -188,63 +188,84 @@ public class ArtifactController {
 
 
     // ----------------------------------------------------
-    // BULUNTU KODU İLE GETİR
-    // ----------------------------------------------------
+// BULUNTU KODU İLE GETİR
+// ----------------------------------------------------
 
-    @GetMapping("/code/{artifactCode}")
-    public ResponseEntity<ArtifactResponse>
-    getByArtifactCode(
+@GetMapping("/code/{artifactCode}")
+public ResponseEntity<ArtifactResponse>
+getByArtifactCode(
 
-            @PathVariable
-            String artifactCode,
+        @PathVariable
+        String artifactCode,
 
-            Authentication authentication
-    ) {
+        Authentication authentication
+) {
 
-        CustomUserPrincipal principal =
-                (CustomUserPrincipal)
-                        authentication.getPrincipal();
+    CustomUserPrincipal principal =
+            (CustomUserPrincipal)
+                    authentication.getPrincipal();
 
-        return artifactService
-                .getByArtifactCode(
-                        artifactCode
-                )
-                .filter(
-                        artifact ->
-                                canViewArtifact(
-                                        artifact,
-                                        principal.getUser()
-                                )
-                )
-                .map(
-                        this::toArtifactResponse
-                )
-                .map(
-                        ResponseEntity::ok
-                )
-                .orElseGet(
-                        () ->
-                                ResponseEntity
-                                        .notFound()
-                                        .build()
-                );
-    }
+    return artifactService
+            .getByArtifactCode(
+                    artifactCode
+            )
+            .filter(
+                    artifact ->
+                            canViewArtifact(
+                                    artifact,
+                                    principal.getUser()
+                            )
+            )
+            .map(
+                    this::toArtifactResponse
+            )
+            .map(
+                    ResponseEntity::ok
+            )
+            .orElseGet(
+                    () ->
+                            ResponseEntity
+                                    .notFound()
+                                    .build()
+            );
+}
+// ----------------------------------------------------
+// BULUNTU KODU DURUMU
+// ACTIVE / DELETED / AVAILABLE
+// ----------------------------------------------------
 
+@GetMapping("/code/{artifactCode}/status")
+@PreAuthorize(
+        "hasAnyRole('ADMIN', 'CREW_MEMBER')"
+)
+public ResponseEntity<String>
+artifactCodeStatus(
 
-    // ----------------------------------------------------
-    // TEK BULUNTU PDF DIŞA AKTAR
-    // ----------------------------------------------------
+        @PathVariable
+        String artifactCode
+) {
 
-   @GetMapping("/{artifactId}/pdf")
+    return ResponseEntity.ok(
+            artifactService
+                    .getArtifactCodeStatus(
+                            artifactCode
+                    )
+    );
+}
+// ----------------------------------------------------
+// TEK BULUNTU PDF DIŞA AKTAR
+// ----------------------------------------------------
+
+@GetMapping("/{artifactId}/pdf")
 @PreAuthorize(
         "hasAnyRole('ADMIN', 'CREW_MEMBER')"
 )
 public ResponseEntity<byte[]> exportArtifactPdf(
-            @PathVariable
-            Long artifactId,
+        @PathVariable
+        Long artifactId,
 
-            Authentication authentication
-    ) {
+        Authentication authentication
+) {
 
         CustomUserPrincipal principal =
                 (CustomUserPrincipal)

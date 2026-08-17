@@ -362,7 +362,37 @@ public class ArtifactService {
                 + "%";
     }
 
+// --------------------------------------------------
+// BULUNTU KODU DURUMU
+// ACTIVE / DELETED / AVAILABLE
+// --------------------------------------------------
 
+public String getArtifactCodeStatus(
+        String artifactCode
+) {
+
+    if (
+            artifactCode == null ||
+            artifactCode.isBlank()
+    ) {
+
+        return "AVAILABLE";
+    }
+
+    return artifactRepository
+            .findByArtifactCode(
+                    artifactCode.trim()
+            )
+            .map(
+                    artifact ->
+                            artifact.isDeleted()
+                                    ? "DELETED"
+                                    : "ACTIVE"
+            )
+            .orElse(
+                    "AVAILABLE"
+            );
+}
     // --------------------------------------------------
     // ID İLE AKTİF BULUNTU GETİR
     // --------------------------------------------------
