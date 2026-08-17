@@ -1,27 +1,35 @@
 package com.philadelphia.inventory.service;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+
 @Service
 public class FileStorageService {
 
-    private final Path uploadRoot;
+    private final Cloudinary cloudinary;
 
     public FileStorageService(
-            @Value("${app.upload.dir}") String uploadDir
-    ) {
-        this.uploadRoot = Paths.get(uploadDir)
-                .toAbsolutePath()
-                .normalize();
+        @Value("${cloudinary.cloud-name}") String cloudName,
+        @Value("${cloudinary.api-key}") String apiKey,
+        @Value("${cloudinary.api-secret}") String apiSecret
+) {
+
+        this.cloudinary = new Cloudinary(
+                ObjectUtils.asMap(
+                        "cloud_name", cloudName,
+                        "api_key", apiKey,
+                        "api_secret", apiSecret,
+                        "secure", true
+                )
+        );
     }
 
     public String storeArtifactPhoto(
@@ -44,45 +52,38 @@ public class FileStorageService {
             );
         }
 
-        String originalFileName = file.getOriginalFilename();
-
-        String extension = "";
-
-        if (originalFileName != null
-                && originalFileName.contains(".")) {
-
-            extension = originalFileName.substring(
-                    originalFileName.lastIndexOf(".")
-            );
-        }
-
-        String storedFileName =
-                UUID.randomUUID() + extension;
-
-        Path artifactDirectory =
-                uploadRoot.resolve(
-                        artifactId.toString()
-                );
-
         try {
-            Files.createDirectories(artifactDirectory);
 
-            Path targetPath =
-                    artifactDirectory.resolve(
-                            storedFileName
+            String publicId =
+                    "philadelphia-inventory/artifacts/"
+                    + artifactId
+                    + "/"
+                    + UUID.randomUUID();
+
+            Map<?, ?> uploadResult =
+                    cloudinary.uploader().upload(
+                            file.getBytes(),
+                            ObjectUtils.asMap(
+                                    "public_id", publicId,
+                                    "resource_type", "image"
+                            )
                     );
 
-            Files.copy(
-                    file.getInputStream(),
-                    targetPath,
-                    StandardCopyOption.REPLACE_EXISTING
-            );
+            Object secureUrl =
+                    uploadResult.get("secure_url");
 
-            return targetPath.toString();
+            if (secureUrl == null) {
+                throw new IllegalStateException(
+                        "Cloudinary did not return a photo URL."
+                );
+            }
+
+            return secureUrl.toString();
 
         } catch (IOException exception) {
+
             throw new IllegalStateException(
-                    "Photo could not be stored.",
+                    "Photo could not be stored in Cloudinary.",
                     exception
             );
         }
@@ -90,14 +91,27 @@ public class FileStorageService {
 
     public byte[] loadFile(String storagePath) {
 
-        try {
-            return Files.readAllBytes(
-                    Paths.get(storagePath)
-            );
-
-        } catch (IOException exception) {
+        if (storagePath == null
+                || storagePath.isBlank()) {
             throw new IllegalArgumentException(
-                    "Photo file could not be found."
+                    "Photo storage path is missing."
+            );
+        }
+
+        try {
+
+            java.net.URI uri =
+                    java.net.URI.create(storagePath);
+
+            return uri.toURL()
+                    .openStream()
+                    .readAllBytes();
+
+        } catch (Exception exception) {
+
+            throw new IllegalArgumentException(
+                    "Photo file could not be loaded.",
+                    exception
             );
         }
     }

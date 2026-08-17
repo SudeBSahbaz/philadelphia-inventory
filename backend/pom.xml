@@ -382,9 +382,18 @@
 
 		</dependency>
 
+ <!-- =========================
+                     CLOUDINARY
+                     PERMANENT PHOTO STORAGE
+                ========================= -->
+
+                <dependency>
+                        <groupId>com.cloudinary</groupId>
+                        <artifactId>cloudinary-http5</artifactId>
+                        <version>2.3.0</version>
+                </dependency>
 
 	</dependencies>
-
 
 	<!-- ==================================================
 	     BUILD
