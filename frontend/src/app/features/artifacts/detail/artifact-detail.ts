@@ -734,113 +734,126 @@ export class ArtifactDetail implements OnInit {
   }
 
 
-  // --------------------------------------------------
-  // BULUNTUYU SİL
-  // SADECE ADMIN
-  // --------------------------------------------------
+ // --------------------------------------------------
+// BULUNTUYU SİL
+// ADMIN + CREW_MEMBER
+// --------------------------------------------------
 
-  deleteArtifact(): void {
+deleteArtifact(): void {
 
-    const currentArtifact =
-      this.artifact();
+  const currentArtifact =
+    this.artifact();
 
-    if (
-      !currentArtifact ||
-      !this.isAdmin()
-    ) {
-      return;
-    }
+  if (
+    !currentArtifact ||
+    !this.canManageArtifacts()
+  ) {
+    return;
+  }
 
-    const confirmed =
-      window.confirm(
-        `${currentArtifact.artifactCode} kodlu buluntuyu silmek istediğinize emin misiniz?\n\nBuluntu kalıcı olarak silinmeyecek ve Silinmiş Buluntular bölümünden geri yüklenebilecektir.`
-      );
+  const confirmed =
+    window.confirm(
+      `${currentArtifact.artifactCode} kodlu buluntuyu silmek istediğinize emin misiniz?\n\nBuluntu kalıcı olarak silinmeyecek ve Silinmiş Buluntular bölümünden geri yüklenebilecektir.`
+    );
 
-    if (!confirmed) {
-      return;
-    }
+  if (!confirmed) {
+    return;
+  }
 
-    this.deleting.set(true);
-    this.errorMessage.set('');
+  this.deleting.set(true);
+  this.errorMessage.set('');
 
-    this.artifactService
-      .deleteArtifact(
-        currentArtifact.id
-      )
-      .subscribe({
+  this.artifactService
+    .deleteArtifact(
+      currentArtifact.id
+    )
+    .subscribe({
 
-        next: () => {
+      next: () => {
 
-          this.deleting.set(false);
+        this.deleting.set(false);
 
-          this.clearPhotoUrls();
+        this.clearPhotoUrls();
 
-          this.router.navigate([
-            '/artifacts'
-          ]);
-        },
+        this.router.navigate([
+          '/artifacts'
+        ]);
+      },
 
-        error: (error) => {
+      error: (error) => {
 
-          this.deleting.set(false);
+        this.deleting.set(false);
 
-          if (error.status === 401) {
-
-            this.errorMessage.set(
-              'Oturumunuz sona ermiş. Lütfen tekrar giriş yapınız.'
-            );
-
-            return;
-          }
-
-          if (error.status === 403) {
-
-            this.errorMessage.set(
-              'Buluntuyu silme yetkiniz bulunmuyor.'
-            );
-
-            return;
-          }
-
-          if (error.status === 404) {
-
-            this.errorMessage.set(
-              'Silinecek buluntu bulunamadı.'
-            );
-
-            return;
-          }
+        if (error.status === 401) {
 
           this.errorMessage.set(
-            error.error?.message ??
-            'Buluntu silinirken bir hata oluştu.'
+            'Oturumunuz sona ermiş. Lütfen tekrar giriş yapınız.'
           );
+
+          return;
         }
-      });
-  }
 
+        if (error.status === 403) {
 
-  // --------------------------------------------------
-  // YETKİLER
-  // --------------------------------------------------
+          this.errorMessage.set(
+            'Buluntuyu silme yetkiniz bulunmuyor.'
+          );
 
-  canEdit(): boolean {
+          return;
+        }
 
-    return (
-      this.authService.hasRole(
-        'ADMIN'
-      ) ||
-      this.authService.hasRole(
-        'CREW_MEMBER'
-      )
-    );
-  }
+        if (error.status === 404) {
 
+          this.errorMessage.set(
+            'Silinecek buluntu bulunamadı.'
+          );
 
-  isAdmin(): boolean {
+          return;
+        }
 
-    return this.authService.hasRole(
+        this.errorMessage.set(
+          error.error?.message ??
+          'Buluntu silinirken bir hata oluştu.'
+        );
+      }
+    });
+}
+
+// --------------------------------------------------
+// YETKİLER
+// --------------------------------------------------
+
+canEdit(): boolean {
+
+  return (
+    this.authService.hasRole(
       'ADMIN'
-    );
-  }
+    ) ||
+    this.authService.hasRole(
+      'CREW_MEMBER'
+    )
+  );
+}
+
+
+canManageArtifacts(): boolean {
+
+  return (
+    this.authService.hasRole(
+      'ADMIN'
+    ) ||
+    this.authService.hasRole(
+      'CREW_MEMBER'
+    )
+  );
+}
+
+
+isAdmin(): boolean {
+
+  return this.authService.hasRole(
+    'ADMIN'
+  );
+}
+
 }

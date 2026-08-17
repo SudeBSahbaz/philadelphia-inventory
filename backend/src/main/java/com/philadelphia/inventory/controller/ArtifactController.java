@@ -32,22 +32,33 @@ import com.philadelphia.inventory.service.ArtifactService;
 
 import jakarta.validation.Valid;
 
+
 @RestController
 @RequestMapping("/api/artifacts")
 public class ArtifactController {
 
+
     private final ArtifactService artifactService;
+
     private final ArtifactPdfService artifactPdfService;
+
     private final ArtifactExcelService artifactExcelService;
+
 
     public ArtifactController(
             ArtifactService artifactService,
             ArtifactPdfService artifactPdfService,
             ArtifactExcelService artifactExcelService
     ) {
-        this.artifactService = artifactService;
-        this.artifactPdfService = artifactPdfService;
-        this.artifactExcelService = artifactExcelService;
+
+        this.artifactService =
+                artifactService;
+
+        this.artifactPdfService =
+                artifactPdfService;
+
+        this.artifactExcelService =
+                artifactExcelService;
     }
 
 
@@ -65,7 +76,9 @@ public class ArtifactController {
                 (CustomUserPrincipal)
                         authentication.getPrincipal();
 
+
         List<Artifact> artifacts;
+
 
         if (
                 principal.getUser().getRole()
@@ -83,10 +96,14 @@ public class ArtifactController {
                             .getAllActiveArtifacts();
         }
 
+
         List<ArtifactListItemResponse> response =
                 artifacts.stream()
-                        .map(this::toListItemResponse)
+                        .map(
+                                this::toListItemResponse
+                        )
                         .toList();
+
 
         return ResponseEntity.ok(
                 response
@@ -145,8 +162,10 @@ public class ArtifactController {
                 (CustomUserPrincipal)
                         authentication.getPrincipal();
 
+
         ArtifactVisibility visibility =
                 null;
+
 
         // LOOKUP_USER yalnızca PUBLIC
         // buluntular arasında arama yapabilir.
@@ -158,6 +177,7 @@ public class ArtifactController {
             visibility =
                     ArtifactVisibility.PUBLIC;
         }
+
 
         List<Artifact> artifacts =
                 artifactService.searchArtifacts(
@@ -176,10 +196,14 @@ public class ArtifactController {
                         visibility
                 );
 
+
         List<ArtifactListItemResponse> response =
                 artifacts.stream()
-                        .map(this::toListItemResponse)
+                        .map(
+                                this::toListItemResponse
+                        )
                         .toList();
+
 
         return ResponseEntity.ok(
                 response
@@ -188,90 +212,100 @@ public class ArtifactController {
 
 
     // ----------------------------------------------------
-// BULUNTU KODU İLE GETİR
-// ----------------------------------------------------
+    // BULUNTU KODU İLE GETİR
+    // ----------------------------------------------------
 
-@GetMapping("/code/{artifactCode}")
-public ResponseEntity<ArtifactResponse>
-getByArtifactCode(
+    @GetMapping("/code/{artifactCode}")
+    public ResponseEntity<ArtifactResponse>
+    getByArtifactCode(
 
-        @PathVariable
-        String artifactCode,
+            @PathVariable
+            String artifactCode,
 
-        Authentication authentication
-) {
-
-    CustomUserPrincipal principal =
-            (CustomUserPrincipal)
-                    authentication.getPrincipal();
-
-    return artifactService
-            .getByArtifactCode(
-                    artifactCode
-            )
-            .filter(
-                    artifact ->
-                            canViewArtifact(
-                                    artifact,
-                                    principal.getUser()
-                            )
-            )
-            .map(
-                    this::toArtifactResponse
-            )
-            .map(
-                    ResponseEntity::ok
-            )
-            .orElseGet(
-                    () ->
-                            ResponseEntity
-                                    .notFound()
-                                    .build()
-            );
-}
-// ----------------------------------------------------
-// BULUNTU KODU DURUMU
-// ACTIVE / DELETED / AVAILABLE
-// ----------------------------------------------------
-
-@GetMapping("/code/{artifactCode}/status")
-@PreAuthorize(
-        "hasAnyRole('ADMIN', 'CREW_MEMBER')"
-)
-public ResponseEntity<String>
-artifactCodeStatus(
-
-        @PathVariable
-        String artifactCode
-) {
-
-    return ResponseEntity.ok(
-            artifactService
-                    .getArtifactCodeStatus(
-                            artifactCode
-                    )
-    );
-}
-// ----------------------------------------------------
-// TEK BULUNTU PDF DIŞA AKTAR
-// ----------------------------------------------------
-
-@GetMapping("/{artifactId}/pdf")
-@PreAuthorize(
-        "hasAnyRole('ADMIN', 'CREW_MEMBER')"
-)
-public ResponseEntity<byte[]> exportArtifactPdf(
-        @PathVariable
-        Long artifactId,
-
-        Authentication authentication
-) {
+            Authentication authentication
+    ) {
 
         CustomUserPrincipal principal =
                 (CustomUserPrincipal)
                         authentication.getPrincipal();
 
+
+        return artifactService
+                .getByArtifactCode(
+                        artifactCode
+                )
+                .filter(
+                        artifact ->
+                                canViewArtifact(
+                                        artifact,
+                                        principal.getUser()
+                                )
+                )
+                .map(
+                        this::toArtifactResponse
+                )
+                .map(
+                        ResponseEntity::ok
+                )
+                .orElseGet(
+                        () ->
+                                ResponseEntity
+                                        .notFound()
+                                        .build()
+                );
+    }
+
+
+    // ----------------------------------------------------
+    // BULUNTU KODU DURUMU
+    // ACTIVE / DELETED / AVAILABLE
+    // ----------------------------------------------------
+
+    @GetMapping("/code/{artifactCode}/status")
+    @PreAuthorize(
+            "hasAnyRole('ADMIN', 'CREW_MEMBER')"
+    )
+    public ResponseEntity<String>
+    artifactCodeStatus(
+
+            @PathVariable
+            String artifactCode
+    ) {
+
+        return ResponseEntity.ok(
+                artifactService
+                        .getArtifactCodeStatus(
+                                artifactCode
+                        )
+        );
+    }
+
+
+    // ----------------------------------------------------
+    // TEK BULUNTU PDF DIŞA AKTAR
+    // ADMIN + CREW_MEMBER
+    // ----------------------------------------------------
+
+    @GetMapping("/{artifactId}/pdf")
+    @PreAuthorize(
+            "hasAnyRole('ADMIN', 'CREW_MEMBER')"
+    )
+    public ResponseEntity<byte[]>
+    exportArtifactPdf(
+
+            @PathVariable
+            Long artifactId,
+
+            Authentication authentication
+    ) {
+
+        CustomUserPrincipal principal =
+                (CustomUserPrincipal)
+                        authentication.getPrincipal();
+
+
         Artifact artifact;
+
 
         try {
 
@@ -351,11 +385,13 @@ public ResponseEntity<byte[]> exportArtifactPdf(
     @PreAuthorize(
             "hasAnyRole('ADMIN', 'CREW_MEMBER')"
     )
-    public ResponseEntity<byte[]> exportArtifactsExcel() {
+    public ResponseEntity<byte[]>
+    exportArtifactsExcel() {
 
         List<Artifact> artifacts =
                 artifactService
                         .getAllActiveArtifacts();
+
 
         byte[] excel =
                 artifactExcelService
@@ -363,8 +399,10 @@ public ResponseEntity<byte[]> exportArtifactPdf(
                                 artifacts
                         );
 
+
         String fileName =
                 "philadelphia-buluntular.xlsx";
+
 
         return ResponseEntity
                 .ok()
@@ -388,34 +426,57 @@ public ResponseEntity<byte[]> exportArtifactPdf(
     }
 
 
+ // ----------------------------------------------------
+// SİLİNMİŞ BULUNTULAR
+// ADMIN + CREW_MEMBER
+// ----------------------------------------------------
 
-    // ----------------------------------------------------
-    // SİLİNMİŞ BULUNTULAR
-    // SADECE ADMIN
-    // ----------------------------------------------------
+@GetMapping("/deleted")
+public ResponseEntity<List<ArtifactListItemResponse>>
+getDeletedArtifacts(
+        Authentication authentication
+) {
 
-    @GetMapping("/deleted")
-    @PreAuthorize(
-            "hasRole('ADMIN')"
-    )
-    public ResponseEntity<List<ArtifactListItemResponse>>
-    getDeletedArtifacts() {
+    System.out.println(">>> GET /deleted METODUNA GIRILDI");
 
-        List<ArtifactListItemResponse> response =
-                artifactService
-                        .getAllDeletedArtifacts()
-                        .stream()
-                        .map(
-                                this::toListItemResponse
-                        )
-                        .toList();
+    CustomUserPrincipal principal =
+            (CustomUserPrincipal)
+                    authentication.getPrincipal();
 
-        return ResponseEntity.ok(
-                response
-        );
+    Role role =
+            principal.getUser().getRole();
+
+    System.out.println(">>> /deleted USER ROLE = " + role);
+    System.out.println(">>> /deleted AUTHORITIES = " + authentication.getAuthorities());
+
+    if (
+            role != Role.ADMIN
+                    &&
+            role != Role.CREW_MEMBER
+    ) {
+
+        System.out.println(">>> /deleted 403 DONUYOR");
+
+        return ResponseEntity
+                .status(403)
+                .build();
     }
 
+    System.out.println(">>> /deleted YETKI BASARILI");
 
+    List<ArtifactListItemResponse> response =
+            artifactService
+                    .getAllDeletedArtifacts()
+                    .stream()
+                    .map(
+                            this::toListItemResponse
+                    )
+                    .toList();
+
+    return ResponseEntity.ok(
+            response
+    );
+}
     // ----------------------------------------------------
     // PUBLIC BULUNTULAR
     // ----------------------------------------------------
@@ -432,6 +493,7 @@ public ResponseEntity<byte[]> exportArtifactPdf(
                                 this::toListItemResponse
                         )
                         .toList();
+
 
         return ResponseEntity.ok(
                 response
@@ -462,10 +524,12 @@ public ResponseEntity<byte[]> exportArtifactPdf(
                 (CustomUserPrincipal)
                         authentication.getPrincipal();
 
+
         Artifact artifact =
                 fromCreateRequest(
                         request
                 );
+
 
         Artifact savedArtifact =
                 artifactService
@@ -473,6 +537,7 @@ public ResponseEntity<byte[]> exportArtifactPdf(
                                 artifact,
                                 principal.getUser()
                         );
+
 
         return ResponseEntity.ok(
                 toArtifactResponse(
@@ -508,10 +573,12 @@ public ResponseEntity<byte[]> exportArtifactPdf(
                 (CustomUserPrincipal)
                         authentication.getPrincipal();
 
+
         Artifact artifact =
                 fromUpdateRequest(
                         request
                 );
+
 
         Artifact updatedArtifact =
                 artifactService
@@ -520,6 +587,7 @@ public ResponseEntity<byte[]> exportArtifactPdf(
                                 artifact,
                                 principal.getUser()
                         );
+
 
         return ResponseEntity.ok(
                 toArtifactResponse(
@@ -531,12 +599,12 @@ public ResponseEntity<byte[]> exportArtifactPdf(
 
     // ----------------------------------------------------
     // BULUNTU SİL
-    // SADECE ADMIN
+    // ADMIN + CREW_MEMBER
     // ----------------------------------------------------
 
     @DeleteMapping("/{artifactId}")
     @PreAuthorize(
-            "hasRole('ADMIN')"
+            "hasAnyRole('ADMIN', 'CREW_MEMBER')"
     )
     public ResponseEntity<ArtifactResponse>
     deleteArtifact(
@@ -551,12 +619,14 @@ public ResponseEntity<byte[]> exportArtifactPdf(
                 (CustomUserPrincipal)
                         authentication.getPrincipal();
 
+
         Artifact deletedArtifact =
                 artifactService
                         .softDelete(
                                 artifactId,
                                 principal.getUser()
                         );
+
 
         return ResponseEntity.ok(
                 toArtifactResponse(
@@ -565,44 +635,52 @@ public ResponseEntity<byte[]> exportArtifactPdf(
         );
     }
 
+// ----------------------------------------------------
+// BULUNTU GERİ YÜKLE
+// ADMIN + CREW_MEMBER
+// ----------------------------------------------------
 
-    // ----------------------------------------------------
-    // BULUNTU GERİ YÜKLE
-    // SADECE ADMIN
-    // ----------------------------------------------------
+@PostMapping("/{artifactId}/restore")
+public ResponseEntity<ArtifactResponse>
+restoreArtifact(
 
-    @PostMapping("/{artifactId}/restore")
-    @PreAuthorize(
-            "hasRole('ADMIN')"
-    )
-    public ResponseEntity<ArtifactResponse>
-    restoreArtifact(
+        @PathVariable
+        Long artifactId,
 
-            @PathVariable
-            Long artifactId,
+        Authentication authentication
+) {
 
-            Authentication authentication
+    CustomUserPrincipal principal =
+            (CustomUserPrincipal)
+                    authentication.getPrincipal();
+
+    Role role =
+            principal.getUser().getRole();
+
+    if (
+            role != Role.ADMIN
+                    &&
+            role != Role.CREW_MEMBER
     ) {
 
-        CustomUserPrincipal principal =
-                (CustomUserPrincipal)
-                        authentication.getPrincipal();
-
-        Artifact restoredArtifact =
-                artifactService
-                        .restore(
-                                artifactId,
-                                principal.getUser()
-                        );
-
-        return ResponseEntity.ok(
-                toArtifactResponse(
-                        restoredArtifact
-                )
-        );
+        return ResponseEntity
+                .status(403)
+                .build();
     }
 
+    Artifact restoredArtifact =
+            artifactService
+                    .restore(
+                            artifactId,
+                            principal.getUser()
+                    );
 
+    return ResponseEntity.ok(
+            toArtifactResponse(
+                    restoredArtifact
+            )
+    );
+}
     // ----------------------------------------------------
     // GÖRÜNTÜLEME YETKİSİ
     // ----------------------------------------------------
@@ -620,6 +698,7 @@ public ResponseEntity<byte[]> exportArtifactPdf(
 
             return true;
         }
+
 
         return (
                 user.getRole()
@@ -644,161 +723,201 @@ public ResponseEntity<byte[]> exportArtifactPdf(
         Artifact artifact =
                 new Artifact();
 
+
         artifact.setArtifactCode(
                 request.getArtifactCode()
         );
+
 
         artifact.setType(
                 request.getType()
         );
 
+
         artifact.setFormNo(
                 request.getFormNo()
         );
+
 
         artifact.setInventoryNo(
                 request.getInventoryNo()
         );
 
+
         artifact.setStudyNo(
                 request.getStudyNo()
         );
+
 
         artifact.setBagNo(
                 request.getBagNo()
         );
 
+
         artifact.setBoxNo(
                 request.getBoxNo()
         );
+
 
         artifact.setDepth(
                 request.getDepth()
         );
 
+
         artifact.setBox(
                 request.getBox()
         );
+
 
         artifact.setFindLocation(
                 request.getFindLocation()
         );
 
+
         artifact.setLocality(
                 request.getLocality()
         );
+
 
         artifact.setSector(
                 request.getSector()
         );
 
+
         artifact.setFindDate(
                 request.getFindDate()
         );
+
 
         artifact.setFindYear(
                 request.getFindYear()
         );
 
+
         artifact.setArea(
                 request.getArea()
         );
+
 
         artifact.setForm(
                 request.getForm()
         );
 
+
         artifact.setDecorationType(
                 request.getDecorationType()
         );
+
 
         artifact.setPasteStructure(
                 request.getPasteStructure()
         );
 
+
         artifact.setFiring(
                 request.getFiring()
         );
+
 
         artifact.setTechnique(
                 request.getTechnique()
         );
 
+
         artifact.setTemper(
                 request.getTemper()
         );
+
 
         artifact.setTemperAmount(
                 request.getTemperAmount()
         );
 
+
         artifact.setSlipStructure(
                 request.getSlipStructure()
         );
+
 
         artifact.setAngle(
                 request.getAngle()
         );
 
+
         artifact.setPeriod(
                 request.getPeriod()
         );
+
 
         artifact.setKind(
                 request.getKind()
         );
 
+
         artifact.setMunsell(
                 request.getMunsell()
         );
+
 
         artifact.setDiameter(
                 request.getDiameter()
         );
 
+
         artifact.setWeight(
                 request.getWeight()
         );
+
 
         artifact.setLength(
                 request.getLength()
         );
 
+
         artifact.setWidth(
                 request.getWidth()
         );
+
 
         artifact.setThickness(
                 request.getThickness()
         );
 
+
         artifact.setDrawingNo(
                 request.getDrawingNo()
         );
+
 
         artifact.setPreservedPart(
                 request.getPreservedPart()
         );
 
+
         artifact.setMaterial(
                 request.getMaterial()
         );
+
 
         artifact.setProductionPlace(
                 request.getProductionPlace()
         );
 
+
         artifact.setDescription(
                 request.getDescription()
         );
+
 
         artifact.setBibliography(
                 request.getBibliography()
         );
 
+
         artifact.setVisibility(
                 request.getVisibility()
         );
+
 
         return artifact;
     }
@@ -815,161 +934,201 @@ public ResponseEntity<byte[]> exportArtifactPdf(
         Artifact artifact =
                 new Artifact();
 
+
         artifact.setArtifactCode(
                 request.getArtifactCode()
         );
+
 
         artifact.setType(
                 request.getType()
         );
 
+
         artifact.setFormNo(
                 request.getFormNo()
         );
+
 
         artifact.setInventoryNo(
                 request.getInventoryNo()
         );
 
+
         artifact.setStudyNo(
                 request.getStudyNo()
         );
+
 
         artifact.setBagNo(
                 request.getBagNo()
         );
 
+
         artifact.setBoxNo(
                 request.getBoxNo()
         );
+
 
         artifact.setDepth(
                 request.getDepth()
         );
 
+
         artifact.setBox(
                 request.getBox()
         );
+
 
         artifact.setFindLocation(
                 request.getFindLocation()
         );
 
+
         artifact.setLocality(
                 request.getLocality()
         );
+
 
         artifact.setSector(
                 request.getSector()
         );
 
+
         artifact.setFindDate(
                 request.getFindDate()
         );
+
 
         artifact.setFindYear(
                 request.getFindYear()
         );
 
+
         artifact.setArea(
                 request.getArea()
         );
+
 
         artifact.setForm(
                 request.getForm()
         );
 
+
         artifact.setDecorationType(
                 request.getDecorationType()
         );
+
 
         artifact.setPasteStructure(
                 request.getPasteStructure()
         );
 
+
         artifact.setFiring(
                 request.getFiring()
         );
+
 
         artifact.setTechnique(
                 request.getTechnique()
         );
 
+
         artifact.setTemper(
                 request.getTemper()
         );
+
 
         artifact.setTemperAmount(
                 request.getTemperAmount()
         );
 
+
         artifact.setSlipStructure(
                 request.getSlipStructure()
         );
+
 
         artifact.setAngle(
                 request.getAngle()
         );
 
+
         artifact.setPeriod(
                 request.getPeriod()
         );
+
 
         artifact.setKind(
                 request.getKind()
         );
 
+
         artifact.setMunsell(
                 request.getMunsell()
         );
+
 
         artifact.setDiameter(
                 request.getDiameter()
         );
 
+
         artifact.setWeight(
                 request.getWeight()
         );
+
 
         artifact.setLength(
                 request.getLength()
         );
 
+
         artifact.setWidth(
                 request.getWidth()
         );
+
 
         artifact.setThickness(
                 request.getThickness()
         );
 
+
         artifact.setDrawingNo(
                 request.getDrawingNo()
         );
+
 
         artifact.setPreservedPart(
                 request.getPreservedPart()
         );
 
+
         artifact.setMaterial(
                 request.getMaterial()
         );
+
 
         artifact.setProductionPlace(
                 request.getProductionPlace()
         );
 
+
         artifact.setDescription(
                 request.getDescription()
         );
+
 
         artifact.setBibliography(
                 request.getBibliography()
         );
 
+
         artifact.setVisibility(
                 request.getVisibility()
         );
+
 
         return artifact;
     }
@@ -984,14 +1143,23 @@ public ResponseEntity<byte[]> exportArtifactPdf(
     ) {
 
         return new ArtifactListItemResponse(
+
                 artifact.getId(),
+
                 artifact.getArtifactCode(),
+
                 artifact.getFormNo(),
+
                 artifact.getType(),
+
                 artifact.getFindLocation(),
+
                 artifact.getSector(),
+
                 artifact.getFindDate(),
+
                 artifact.getPeriod(),
+
                 artifact.getVisibility(),
 
                 getUserName(
@@ -999,6 +1167,7 @@ public ResponseEntity<byte[]> exportArtifactPdf(
                 ),
 
                 artifact.getUpdatedAt(),
+
                 artifact.isDeleted()
         );
     }
@@ -1013,45 +1182,85 @@ public ResponseEntity<byte[]> exportArtifactPdf(
     ) {
 
         return new ArtifactResponse(
+
                 artifact.getId(),
+
                 artifact.getArtifactCode(),
+
                 artifact.getType(),
+
                 artifact.getFormNo(),
+
                 artifact.getInventoryNo(),
+
                 artifact.getStudyNo(),
+
                 artifact.getBagNo(),
+
                 artifact.getBoxNo(),
+
                 artifact.getDepth(),
+
                 artifact.getBox(),
+
                 artifact.getFindLocation(),
+
                 artifact.getLocality(),
+
                 artifact.getSector(),
+
                 artifact.getFindDate(),
+
                 artifact.getFindYear(),
+
                 artifact.getArea(),
+
                 artifact.getForm(),
+
                 artifact.getDecorationType(),
+
                 artifact.getPasteStructure(),
+
                 artifact.getFiring(),
+
                 artifact.getTechnique(),
+
                 artifact.getTemper(),
+
                 artifact.getTemperAmount(),
+
                 artifact.getSlipStructure(),
+
                 artifact.getAngle(),
+
                 artifact.getPeriod(),
+
                 artifact.getKind(),
+
                 artifact.getMunsell(),
+
                 artifact.getDiameter(),
+
                 artifact.getWeight(),
+
                 artifact.getLength(),
+
                 artifact.getWidth(),
+
                 artifact.getThickness(),
+
                 artifact.getDrawingNo(),
+
                 artifact.getPreservedPart(),
+
                 artifact.getMaterial(),
+
                 artifact.getProductionPlace(),
+
                 artifact.getDescription(),
+
                 artifact.getBibliography(),
+
                 artifact.getVisibility(),
 
                 artifact.getCreatedBy() != null
@@ -1092,8 +1301,10 @@ public ResponseEntity<byte[]> exportArtifactPdf(
     ) {
 
         if (user == null) {
+
             return null;
         }
+
 
         return user.getFirstName()
                 + " "
@@ -1110,12 +1321,14 @@ public ResponseEntity<byte[]> exportArtifactPdf(
     ) {
 
         if (
-                value == null ||
+                value == null
+                        ||
                 value.isBlank()
         ) {
 
             return "artifact";
         }
+
 
         return value
                 .trim()

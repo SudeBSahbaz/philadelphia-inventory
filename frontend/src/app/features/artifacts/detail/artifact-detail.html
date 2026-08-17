@@ -98,22 +98,22 @@
             }
 
 
-            @if (isAdmin()) {
+           @if (canManageArtifacts()) {
 
-              <button
-                type="button"
-                class="action-button danger"
-                [disabled]="deleting()"
-                (click)="deleteArtifact()"
-              >
-                {{
-                  deleting()
-                    ? 'Siliniyor...'
-                    : 'Buluntuyu Sil'
-                }}
-              </button>
+  <button
+    type="button"
+    class="action-button danger"
+    [disabled]="deleting()"
+    (click)="deleteArtifact()"
+  >
+    {{
+      deleting()
+        ? 'Siliniyor...'
+        : 'Buluntuyu Sil'
+    }}
+  </button>
 
-            }
+}
 
           </div>
 

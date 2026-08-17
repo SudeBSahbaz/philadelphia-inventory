@@ -74,18 +74,18 @@
       </button>
 
 
-      @if (isAdmin()) {
+      @if (canManageArtifacts()) {
 
-        <button
-          type="button"
-          class="tab-button"
-          [class.active]="activeTab() === 'deleted'"
-          (click)="showDeletedArtifacts()"
-        >
-          Silinmiş Buluntular
-        </button>
+  <button
+    type="button"
+    class="tab-button"
+    [class.active]="activeTab() === 'deleted'"
+    (click)="showDeletedArtifacts()"
+  >
+    Silinmiş Buluntular
+  </button>
 
-      }
+}
 
     </div>
 

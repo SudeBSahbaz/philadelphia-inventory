@@ -148,7 +148,7 @@ export class ArtifactList implements OnInit {
           if (error.status === 403) {
 
             this.errorMessage.set(
-              'Silinmiş buluntuları yalnızca admin görüntüleyebilir.'
+             'Silinmiş buluntuları görüntüleme yetkiniz bulunmuyor.'
             );
 
             return;
@@ -178,22 +178,20 @@ export class ArtifactList implements OnInit {
     this.loadArtifacts();
   }
 
-  showDeletedArtifacts(): void {
+showDeletedArtifacts(): void {
 
-    if (!this.isAdmin()) {
-      return;
-    }
-
-    this.activeTab.set(
-      'deleted'
-    );
-
-    this.errorMessage.set('');
-
-    this.loadDeletedArtifacts();
+  if (!this.canManageArtifacts()) {
+    return;
   }
 
+  this.activeTab.set(
+    'deleted'
+  );
 
+  this.errorMessage.set('');
+
+  this.loadDeletedArtifacts();
+}
   // --------------------------------------------------
   // BULUNTU AÇ
   // --------------------------------------------------
@@ -316,9 +314,9 @@ export class ArtifactList implements OnInit {
 
     event.stopPropagation();
 
-    if (!this.isAdmin()) {
-      return;
-    }
+   if (!this.canManageArtifacts()) {
+  return;
+}
 
     this.restoringId.set(
       artifact.id
@@ -391,28 +389,41 @@ export class ArtifactList implements OnInit {
       '/artifacts/search'
     ]);
   }
+// --------------------------------------------------
+// YETKİLER
+// --------------------------------------------------
 
+canExport(): boolean {
 
-  // --------------------------------------------------
-  // YETKİLER
-  // --------------------------------------------------
-
-  canExport(): boolean {
-
-    return (
-      this.authService.hasRole(
-        'ADMIN'
-      ) ||
-      this.authService.hasRole(
-        'CREW_MEMBER'
-      )
-    );
-  }
-
-  isAdmin(): boolean {
-
-    return this.authService.hasRole(
+  return (
+    this.authService.hasRole(
       'ADMIN'
-    );
-  }
+    ) ||
+    this.authService.hasRole(
+      'CREW_MEMBER'
+    )
+  );
+}
+
+
+canManageArtifacts(): boolean {
+
+  return (
+    this.authService.hasRole(
+      'ADMIN'
+    ) ||
+    this.authService.hasRole(
+      'CREW_MEMBER'
+    )
+  );
+}
+
+
+isAdmin(): boolean {
+
+  return this.authService.hasRole(
+    'ADMIN'
+  );
+}
+
 }

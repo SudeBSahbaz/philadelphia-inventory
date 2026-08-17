@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -26,9 +27,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
+
 
     @Value("${app.cors.allowed-origin}")
     private String allowedOrigin;
@@ -100,11 +103,6 @@ public class SecurityConfig {
         );
 
 
-        /*
-         * JSESSIONID ve XSRF cookie'lerinin
-         * frontend-backend arasında gönderilebilmesi
-         * için gerekli.
-         */
         configuration.setAllowCredentials(
                 true
         );
@@ -135,7 +133,6 @@ public class SecurityConfig {
 
         http
 
-
                 // --------------------------------------------------
                 // CORS
                 // --------------------------------------------------
@@ -163,20 +160,6 @@ public class SecurityConfig {
                                         new SpaCsrfTokenRequestHandler()
                                 )
 
-                                /*
-                                 * Bu endpointler kullanıcı giriş yapmadan
-                                 * kullanılabilmelidir.
-                                 *
-                                 * Login:
-                                 * henüz session / token yok.
-                                 *
-                                 * Forgot-password:
-                                 * kullanıcı zaten şifresini bilmiyor.
-                                 *
-                                 * Reset-password:
-                                 * doğrulama reset token'ı üzerinden
-                                 * yapılacak.
-                                 */
                                 .ignoringRequestMatchers(
                                         "/api/auth/login",
                                         "/api/auth/forgot-password",
@@ -192,11 +175,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth
 
-
-                                // --------------------------------------------------
-                                // GİRİŞ YAPMADAN ERİŞİLEBİLEN
-                                // AUTH ENDPOINTLERİ
-                                // --------------------------------------------------
+                                // ----------------------------------
+                                // LOGIN / PASSWORD RESET
+                                // ----------------------------------
 
                                 .requestMatchers(
                                         "/api/auth/login",
@@ -206,9 +187,9 @@ public class SecurityConfig {
                                 .permitAll()
 
 
-                                // --------------------------------------------------
-                                // GİRİŞ GEREKTİREN AUTH ENDPOINTLERİ
-                                // --------------------------------------------------
+                                // ----------------------------------
+                                // AUTHENTICATED AUTH ENDPOINTS
+                                // ----------------------------------
 
                                 .requestMatchers(
                                         "/api/auth/me",
@@ -218,10 +199,10 @@ public class SecurityConfig {
                                 .authenticated()
 
 
-                                // --------------------------------------------------
-                                // KULLANICI YÖNETİMİ
-                                // SADECE ADMIN
-                                // --------------------------------------------------
+                                // ----------------------------------
+                                // USER MANAGEMENT
+                                // ONLY ADMIN
+                                // ----------------------------------
 
                                 .requestMatchers(
                                         "/api/users/**"
@@ -231,23 +212,55 @@ public class SecurityConfig {
                                 )
 
 
-                                // --------------------------------------------------
-                                // SİLİNMİŞ BULUNTULAR
-                                // SADECE ADMIN
-                                // --------------------------------------------------
+                                // ----------------------------------
+                                // DELETED ARTIFACTS
+                                // ADMIN + CREW_MEMBER
+                                // ----------------------------------
 
                                 .requestMatchers(
-                                        "/api/artifacts/deleted/**"
+                                        HttpMethod.GET,
+                                        "/api/artifacts/deleted"
                                 )
-                                .hasRole(
-                                        "ADMIN"
+                                .hasAnyRole(
+                                        "ADMIN",
+                                        "CREW_MEMBER"
                                 )
 
 
-                                // --------------------------------------------------
-                                // BULUNTU GEÇMİŞİ
+                                // ----------------------------------
+                                // DELETE ARTIFACT
                                 // ADMIN + CREW_MEMBER
-                                // --------------------------------------------------
+                                // ----------------------------------
+
+                                .requestMatchers(
+                                        HttpMethod.DELETE,
+                                        "/api/artifacts/*"
+                                )
+                                .hasAnyRole(
+                                        "ADMIN",
+                                        "CREW_MEMBER"
+                                )
+
+
+                                // ----------------------------------
+                                // RESTORE ARTIFACT
+                                // ADMIN + CREW_MEMBER
+                                // ----------------------------------
+
+                                .requestMatchers(
+                                        HttpMethod.POST,
+                                        "/api/artifacts/*/restore"
+                                )
+                                .hasAnyRole(
+                                        "ADMIN",
+                                        "CREW_MEMBER"
+                                )
+
+
+                                // ----------------------------------
+                                // ARTIFACT HISTORY
+                                // ADMIN + CREW_MEMBER
+                                // ----------------------------------
 
                                 .requestMatchers(
                                         "/api/artifacts/*/history"
@@ -258,24 +271,9 @@ public class SecurityConfig {
                                 )
 
 
-                                // --------------------------------------------------
-                                // PUBLIC BULUNTULAR
-                                // GİRİŞ YAPMIŞ HERKES
-                                // --------------------------------------------------
-
-                                .requestMatchers(
-                                        "/api/artifacts/public"
-                                )
-                                .authenticated()
-
-
-                                // --------------------------------------------------
-                                // FOTOĞRAF ENDPOINTLERİ
-                                // --------------------------------------------------
-                                //
-                                // Ayrıntılı rol ve visibility kontrolü
-                                // ArtifactPhotoController içerisinde.
-                                //
+                                // ----------------------------------
+                                // ARTIFACT PHOTOS
+                                // ----------------------------------
 
                                 .requestMatchers(
                                         "/api/artifacts/*/photos",
@@ -285,9 +283,9 @@ public class SecurityConfig {
                                 .authenticated()
 
 
-                                // --------------------------------------------------
-                                // GENEL BULUNTU ENDPOINTLERİ
-                                // --------------------------------------------------
+                                // ----------------------------------
+                                // ALL OTHER ARTIFACT ENDPOINTS
+                                // ----------------------------------
 
                                 .requestMatchers(
                                         "/api/artifacts/**"
@@ -295,9 +293,9 @@ public class SecurityConfig {
                                 .authenticated()
 
 
-                                // --------------------------------------------------
-                                // DİĞER API ENDPOINTLERİ
-                                // --------------------------------------------------
+                                // ----------------------------------
+                                // OTHER API ENDPOINTS
+                                // ----------------------------------
 
                                 .requestMatchers(
                                         "/api/**"
@@ -305,9 +303,9 @@ public class SecurityConfig {
                                 .authenticated()
 
 
-                                // --------------------------------------------------
-                                // API DIŞINDAKİLER
-                                // --------------------------------------------------
+                                // ----------------------------------
+                                // NON-API
+                                // ----------------------------------
 
                                 .anyRequest()
                                 .permitAll()
@@ -315,7 +313,7 @@ public class SecurityConfig {
 
 
                 // --------------------------------------------------
-                // FORM LOGIN KAPALI
+                // FORM LOGIN DISABLED
                 // --------------------------------------------------
 
                 .formLogin(
@@ -325,7 +323,7 @@ public class SecurityConfig {
 
 
                 // --------------------------------------------------
-                // HTTP BASIC KAPALI
+                // HTTP BASIC DISABLED
                 // --------------------------------------------------
 
                 .httpBasic(
@@ -345,8 +343,10 @@ public class SecurityConfig {
     private static final class SpaCsrfTokenRequestHandler
             implements CsrfTokenRequestHandler {
 
+
         private final CsrfTokenRequestHandler plain =
                 new CsrfTokenRequestAttributeHandler();
+
 
         private final CsrfTokenRequestHandler xor =
                 new XorCsrfTokenRequestAttributeHandler();
@@ -359,9 +359,6 @@ public class SecurityConfig {
                 Supplier<CsrfToken> csrfToken
         ) {
 
-            /*
-             * BREACH korumasını uygular.
-             */
             this.xor.handle(
                     request,
                     response,
@@ -369,12 +366,6 @@ public class SecurityConfig {
             );
 
 
-            /*
-             * Deferred token'ı yükler.
-             *
-             * Böylece Angular tarafından kullanılacak
-             * XSRF-TOKEN cookie'si oluşturulur.
-             */
             csrfToken.get();
         }
 
@@ -391,10 +382,6 @@ public class SecurityConfig {
                     );
 
 
-            /*
-             * Angular X-XSRF-TOKEN header'ını
-             * göndermişse plain handler kullan.
-             */
             if (
                     StringUtils.hasText(
                             headerValue
@@ -409,9 +396,6 @@ public class SecurityConfig {
             }
 
 
-            /*
-             * Header yoksa XOR handler'a dön.
-             */
             return this.xor
                     .resolveCsrfTokenValue(
                             request,
