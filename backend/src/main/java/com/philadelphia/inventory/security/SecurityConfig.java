@@ -1,7 +1,6 @@
 package com.philadelphia.inventory.security;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -14,18 +13,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
-import org.springframework.security.web.csrf.CsrfTokenRequestHandler;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
-import org.springframework.security.web.csrf.XorCsrfTokenRequestAttributeHandler;
-import org.springframework.util.StringUtils;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 
 @Configuration
@@ -85,6 +77,7 @@ public class SecurityConfig {
                         "GET",
                         "POST",
                         "PUT",
+                        "PATCH",
                         "DELETE",
                         "OPTIONS"
                 )
@@ -152,11 +145,11 @@ public class SecurityConfig {
                         csrf
 
                                 .csrfTokenRepository(
-        new HttpSessionCsrfTokenRepository()
-)
+                                        new HttpSessionCsrfTokenRepository()
+                                )
 
                                 .csrfTokenRequestHandler(
-                                        new SpaCsrfTokenRequestHandler()
+                                        new CsrfTokenRequestAttributeHandler()
                                 )
 
                                 .ignoringRequestMatchers(
@@ -332,74 +325,5 @@ public class SecurityConfig {
 
 
         return http.build();
-    }
-
-
-    // ==================================================
-    // SPA CSRF TOKEN HANDLER
-    // ==================================================
-
-    private static final class SpaCsrfTokenRequestHandler
-            implements CsrfTokenRequestHandler {
-
-
-        private final CsrfTokenRequestHandler plain =
-                new CsrfTokenRequestAttributeHandler();
-
-
-        private final CsrfTokenRequestHandler xor =
-                new XorCsrfTokenRequestAttributeHandler();
-
-
-        @Override
-        public void handle(
-                HttpServletRequest request,
-                HttpServletResponse response,
-                Supplier<CsrfToken> csrfToken
-        ) {
-
-            this.xor.handle(
-                    request,
-                    response,
-                    csrfToken
-            );
-
-
-            csrfToken.get();
-        }
-
-
-        @Override
-        public String resolveCsrfTokenValue(
-                HttpServletRequest request,
-                CsrfToken csrfToken
-        ) {
-
-            String headerValue =
-                    request.getHeader(
-                            csrfToken.getHeaderName()
-                    );
-
-
-            if (
-                    StringUtils.hasText(
-                            headerValue
-                    )
-            ) {
-
-                return this.plain
-                        .resolveCsrfTokenValue(
-                                request,
-                                csrfToken
-                        );
-            }
-
-
-            return this.xor
-                    .resolveCsrfTokenValue(
-                            request,
-                            csrfToken
-                    );
-        }
     }
 }
