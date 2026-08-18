@@ -388,11 +388,17 @@
                 ========================= -->
 
                 <dependency>
-                        <groupId>com.cloudinary</groupId>
-                        <artifactId>cloudinary-http5</artifactId>
-                        <version>2.3.0</version>
-                </dependency>
+    <groupId>com.cloudinary</groupId>
+    <artifactId>cloudinary-http5</artifactId>
+    <version>2.3.0</version>
+</dependency>
 
+<dependency>
+    <groupId>com.aayushatharva.brotli4j</groupId>
+    <artifactId>native-linux-x86_64</artifactId>
+    <version>1.23.0</version>
+    <scope>runtime</scope>
+</dependency>
 	</dependencies>
 
 	<!-- ==================================================
