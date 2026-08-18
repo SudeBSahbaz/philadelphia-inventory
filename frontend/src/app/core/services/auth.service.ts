@@ -14,7 +14,9 @@ import {
   environment
 } from '../../../environments/environment';
 
-
+import {
+  CsrfService
+} from './csrf.service';
 export interface ProfileResponse {
   id: number;
   firstName: string;
@@ -53,9 +55,10 @@ export class AuthService {
     this.currentUserSignal.asReadonly();
 
 
-  constructor(
-    private http: HttpClient
-  ) {}
+ constructor(
+  private http: HttpClient,
+  private csrfService: CsrfService
+) {}
 
 
   // --------------------------------------------------
@@ -77,7 +80,7 @@ export class AuthService {
       tap(user => {
 
         this.currentUserSignal.set(user);
-
+this.csrfService.clearToken();
 
         // Önce iki storage'ı da temizle.
         this.clearStoredUser();
@@ -157,7 +160,7 @@ export class AuthService {
       tap(() => {
 
         this.currentUserSignal.set(null);
-
+this.csrfService.clearToken();
         this.clearStoredUser();
       })
     );
