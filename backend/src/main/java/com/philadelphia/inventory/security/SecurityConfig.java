@@ -14,10 +14,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.csrf.CsrfTokenRequestHandler;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.csrf.XorCsrfTokenRequestAttributeHandler;
 import org.springframework.util.StringUtils;
 import org.springframework.web.cors.CorsConfiguration;
@@ -152,9 +152,8 @@ public class SecurityConfig {
                         csrf
 
                                 .csrfTokenRepository(
-                                        CookieCsrfTokenRepository
-                                                .withHttpOnlyFalse()
-                                )
+        new HttpSessionCsrfTokenRepository()
+)
 
                                 .csrfTokenRequestHandler(
                                         new SpaCsrfTokenRequestHandler()
