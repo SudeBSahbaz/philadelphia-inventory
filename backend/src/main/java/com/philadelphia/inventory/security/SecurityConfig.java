@@ -124,6 +124,14 @@ public class SecurityConfig {
             HttpSecurity http
     ) throws Exception {
 
+        HttpSessionCsrfTokenRepository csrfTokenRepository =
+                new HttpSessionCsrfTokenRepository();
+
+        csrfTokenRepository.setHeaderName(
+                "X-XSRF-TOKEN"
+        );
+
+
         http
 
                 // --------------------------------------------------
@@ -145,7 +153,7 @@ public class SecurityConfig {
                         csrf
 
                                 .csrfTokenRepository(
-                                        new HttpSessionCsrfTokenRepository()
+                                        csrfTokenRepository
                                 )
 
                                 .csrfTokenRequestHandler(
