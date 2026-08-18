@@ -2,6 +2,18 @@ import {
   HttpInterceptorFn
 } from '@angular/common/http';
 
+import {
+  inject
+} from '@angular/core';
+
+import {
+  switchMap
+} from 'rxjs';
+
+import {
+  CsrfService
+} from '../services/csrf.service';
+
 
 export const csrfInterceptor:
   HttpInterceptorFn = (
@@ -16,6 +28,7 @@ export const csrfInterceptor:
       'DELETE'
     ];
 
+
     if (
       !unsafeMethods.includes(
         request.method
@@ -28,10 +41,16 @@ export const csrfInterceptor:
     }
 
 
-    // Login CSRF kontrolünden muaf.
+    // CSRF kontrolünden muaf endpointler
     if (
       request.url.endsWith(
         '/api/auth/login'
+      ) ||
+      request.url.endsWith(
+        '/api/auth/forgot-password'
+      ) ||
+      request.url.endsWith(
+        '/api/auth/reset-password'
       )
     ) {
 
@@ -41,71 +60,50 @@ export const csrfInterceptor:
     }
 
 
-    const csrfToken =
-      getCookie(
-        'XSRF-TOKEN'
-      );
+    const csrfService =
+      inject(CsrfService);
 
-    if (!csrfToken) {
+
+    const existingToken =
+      csrfService.getToken();
+
+
+    if (existingToken) {
 
       return next(
-        request
+        request.clone({
+
+          setHeaders: {
+            'X-XSRF-TOKEN':
+              existingToken
+          },
+
+          withCredentials: true
+        })
       );
     }
 
 
-    const csrfRequest =
-      request.clone({
+    // Token yoksa backend'den al,
+    // sonra asıl isteği gönder.
+    return csrfService
+      .loadToken()
+      .pipe(
 
-        setHeaders: {
-          'X-XSRF-TOKEN':
-            decodeURIComponent(
-              csrfToken
+        switchMap(
+          response =>
+
+            next(
+              request.clone({
+
+                setHeaders: {
+                  'X-XSRF-TOKEN':
+                    response.token
+                },
+
+                withCredentials: true
+              })
             )
-        },
-
-        withCredentials: true
-      });
-
-
-    return next(
-      csrfRequest
-    );
-  };
-
-
-function getCookie(
-  name: string
-): string | null {
-
-  const cookiePrefix =
-    `${name}=`;
-
-  const cookies =
-    document.cookie.split(
-      ';'
-    );
-
-
-  for (
-    const cookie of cookies
-  ) {
-
-    const trimmedCookie =
-      cookie.trim();
-
-    if (
-      trimmedCookie.startsWith(
-        cookiePrefix
-      )
-    ) {
-
-      return trimmedCookie.substring(
-        cookiePrefix.length
+        )
       );
-    }
-  }
-
-
-  return null;
-}
+  };
