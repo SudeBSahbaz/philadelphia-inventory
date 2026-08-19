@@ -327,22 +327,25 @@ Production secrets should be configured through the deployment platform's enviro
 
 ## Production
 
-The application is designed to be deployed as separate frontend, backend, database, and persistent file-storage components.
+The application is deployed using separate infrastructure components:
 
-Production deployment configuration and infrastructure are maintained separately from local development credentials.
+- Frontend: Vercel
+- Backend: Render
+- Database: Neon PostgreSQL
+- Artifact image storage: Cloudinary
+
+The production frontend communicates with the backend through a same-origin `/api` proxy configuration.
+
+Production application:
+
+https://philadelphia-inventory.vercel.app
 
 ---
 
 ## Project Status
 
-The core application has been implemented and successfully builds locally.
+The core application has been implemented, deployed, and validated in production.
 
 Current phase:
 
-**Production deployment and final delivery preparation.**
-
----
-
-## Purpose
-
-This project was developed specifically to support archaeological documentation and digital inventory management for the Philadelphia (Alaşehir) excavation.
+**Production deployment completed. The system is currently in final delivery and maintenance preparation.**
